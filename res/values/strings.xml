@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Untersofabeleuchtung</string> <!-- :D -->
+    <string name="blue1">Blau innen</string>
+    <string name="blue2">Blau hinten</string>
+    <string name="red1">Rot links</string>
+    <string name="red2">Rot rechts</string>
+</resources>
