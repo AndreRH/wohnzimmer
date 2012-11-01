@@ -29,138 +29,62 @@ public class lights extends Activity
         Button blue1 = (Button) findViewById(R.id.blue1);
         blue1.setOnClickListener(new OnClickListener() {
             public void onClick(View v)  {
-                URL url;
-                HttpURLConnection urlConnection;
-                try {
-                    url = new URL("http://192.168.178.32/main.cgi?bx2="+blau1an);
-                } catch (java.net.MalformedURLException e){
-                    Toast toast = Toast.makeText(getApplicationContext(), "new URL failed", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-                try {
-                    urlConnection = (HttpURLConnection) url.openConnection();
-                } catch (IOException e) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "openConnection failed", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-                try {
-                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                    //readStream(in);
-                } catch (IOException e) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "BufferedInputStream failed", Toast.LENGTH_SHORT);
-                    toast.show();
-                return;
-                } finally {
-                    if (blau1an>0) blau1an=0;
-                    else blau1an=1;
-                    urlConnection.disconnect();
-                }
+                blau1an = send_command(2, blau1an);
             }
         });
         
         Button blue2 = (Button) findViewById(R.id.blue2);
         blue2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                URL url;
-                HttpURLConnection urlConnection;
-                try {
-                    url = new URL("http://192.168.178.32/main.cgi?bx0="+blau2an);
-                } catch (java.net.MalformedURLException e){
-                    Toast toast = Toast.makeText(getApplicationContext(), "new URL failed", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-                try {
-                    urlConnection = (HttpURLConnection) url.openConnection();
-                } catch (IOException e) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "openConnection failed", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-                try {
-                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                    //readStream(in);
-                } catch (IOException e) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "BufferedInputStream failed", Toast.LENGTH_SHORT);
-                    toast.show();
-                return;
-                } finally {
-                    if (blau2an>0) blau2an=0;
-                    else blau2an=1;
-                    urlConnection.disconnect();
-                }
+                blau2an = send_command(0, blau2an);
             }
         });
         
         Button red1 = (Button) findViewById(R.id.red1);
         red1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                URL url;
-                HttpURLConnection urlConnection;
-                try {
-                    url = new URL("http://192.168.178.32/main.cgi?bx4="+rot1an);
-                } catch (java.net.MalformedURLException e){
-                    Toast toast = Toast.makeText(getApplicationContext(), "new URL failed", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-                try {
-                    urlConnection = (HttpURLConnection) url.openConnection();
-                } catch (IOException e) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "openConnection failed", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-                try {
-                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                    //readStream(in);
-                } catch (IOException e) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "BufferedInputStream failed", Toast.LENGTH_SHORT);
-                    toast.show();
-                return;
-                } finally {
-                    if (rot1an>0) rot1an=0;
-                    else rot1an=1;
-                    urlConnection.disconnect();
-                }
+                rot1an = send_command(4, rot1an);
             }
         });
         
         Button red2 = (Button) findViewById(R.id.red2);
         red2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                URL url;
-                HttpURLConnection urlConnection;
-                try {
-                    url = new URL("http://192.168.178.32/main.cgi?bx6="+rot2an);
-                } catch (java.net.MalformedURLException e){
-                    Toast toast = Toast.makeText(getApplicationContext(), "new URL failed", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-                try {
-                    urlConnection = (HttpURLConnection) url.openConnection();
-                } catch (IOException e) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "openConnection failed", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }
-                try {
-                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                    //readStream(in);
-                } catch (IOException e) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "BufferedInputStream failed", Toast.LENGTH_SHORT);
-                    toast.show();
-                return;
-                } finally {
-                    if (rot2an>0) rot2an=0;
-                    else rot2an=1;
-                    urlConnection.disconnect();
-                }
+                rot2an = send_command(6, rot2an);
             }
         });
+    }
+
+    private int send_command(int bx, int an)
+    {
+        URL url;
+        HttpURLConnection urlConnection;
+        try {
+            url = new URL("http://192.168.178.32/main.cgi?bx"+bx+"="+an);
+        } catch (java.net.MalformedURLException e){
+            Toast toast = Toast.makeText(getApplicationContext(), "new URL failed", Toast.LENGTH_SHORT);
+            toast.show();
+            return an;
+        }
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            Toast toast = Toast.makeText(getApplicationContext(), "openConnection failed", Toast.LENGTH_SHORT);
+            toast.show();
+            return an;
+        }
+        try {
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            /*readStream(in);*/
+        } catch (IOException e) {
+            Toast toast = Toast.makeText(getApplicationContext(), "BufferedInputStream failed", Toast.LENGTH_SHORT);
+            toast.show();
+            urlConnection.disconnect();
+            return an;
+        }
+        urlConnection.disconnect();
+        if (an>0) return 0;
+        else return 1;
     }
 /*
 private void readStream(InputStream is) {
