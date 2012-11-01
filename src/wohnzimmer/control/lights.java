@@ -55,7 +55,12 @@ public class lights extends Activity
                 rot2an = send_command(6, rot2an);
             }
         });
+    }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
         send_update();
     }
 
@@ -156,7 +161,7 @@ public class lights extends Activity
         Button blue1;
         blue1 = (Button) findViewById(R.id.blue1);
         while (blue1 == null) blue1 = (Button) findViewById(R.id.blue1);
-        if (blau1an==1)
+        if (blau1an>0)
         {
             blue1.setTextColor(android.graphics.Color.BLACK);
             blue1.setBackgroundColor(android.graphics.Color.BLUE);
@@ -167,7 +172,7 @@ public class lights extends Activity
             blue1.setBackgroundColor(android.graphics.Color.BLACK);
         }
         Button blue2 = (Button) findViewById(R.id.blue2);
-        if (blau2an==1)
+        if (blau2an>0)
         {
             blue2.setTextColor(android.graphics.Color.BLACK);
             blue2.setBackgroundColor(android.graphics.Color.BLUE);
@@ -178,7 +183,7 @@ public class lights extends Activity
             blue2.setBackgroundColor(android.graphics.Color.BLACK);
         }
         Button red1 = (Button) findViewById(R.id.red1);
-        if (rot1an==1)
+        if (rot1an>0)
         {
             red1.setTextColor(android.graphics.Color.BLACK);
             red1.setBackgroundColor(android.graphics.Color.RED);
@@ -189,7 +194,7 @@ public class lights extends Activity
             red1.setBackgroundColor(android.graphics.Color.BLACK);
         }
         Button red2 = (Button) findViewById(R.id.red2);
-        if (rot2an==1)
+        if (rot2an>0)
         {
             red2.setTextColor(android.graphics.Color.BLACK);
             red2.setBackgroundColor(android.graphics.Color.RED);
