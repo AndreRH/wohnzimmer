@@ -10,29 +10,34 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="v0.3.1 Copyright 2012 André Hentschel"
+        android:text="@string/desc"
         />
 
     <Button android:id="@+id/blue1"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:textColor="#0000ff"
-        android:text="@string/blue1"/>
+        android:text="Blau innen"/>
     <Button android:id="@+id/blue2"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:textColor="#0000ff"
-        android:text="@string/blue2"/>
+        android:text="Blau hinten"/>
     <Button android:id="@+id/red1"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:textColor="#ff0000"
-        android:text="@string/red1"/>
+        android:text="Rot links"/>
     <Button android:id="@+id/red2"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:textColor="#ff0000"
-        android:text="@string/red2"/>
+        android:text="Rot rechts"/>
+    <Button android:id="@+id/udp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="epl"/>
 
 </LinearLayout>
 
