@@ -46,13 +46,14 @@ public class epl extends Activity
         return sb.toString();  
     }
 
-    private static byte[] StringToMessge(byte command, String str) {
-        byte[] bytes = new byte[1+str.length()+1];
+    private static byte[] StringToMessge(byte command, byte spd, String str) {
+        byte[] bytes = new byte[2+str.length()+1];
         byte[] strb = str.getBytes();
 
         bytes[0] = command;
+        bytes[1] = spd;
         for(int i=1; i<=str.length(); i++) {
-            bytes[i] = strb[i-1];
+            bytes[i+1] = strb[i-1];
         }
 
         return bytes;  
@@ -89,9 +90,10 @@ public class epl extends Activity
 
                 EditText inputstr = (EditText) findViewById(R.id.inputstr);
                 String instr = inputstr.getText().toString();
-                byte[] message = StringToMessge((byte)185, instr);
+                byte spd=4;
+                byte[] message = StringToMessge((byte)185, spd, instr);
 
-                DatagramPacket p = new DatagramPacket(message, instr.length()+2, local, server_port);
+                DatagramPacket p = new DatagramPacket(message, instr.length()+3, local, server_port);
                 s.send(p);
 
                 s.close();
