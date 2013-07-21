@@ -12,7 +12,7 @@
         android:layout_marginBottom="10dp"
         android:text="@string/desc"
         />
-<!--
+
     <LinearLayout
         android:id="@+id/refresh_match_layout"
         android:layout_width="fill_parent"
@@ -56,25 +56,7 @@
             android:max="15"
             android:secondaryProgress="0" />
     </LinearLayout>
--->
-<!--
-    <EditText
-        android:id="@+id/speedstr"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="2"
-        />
-    <EditText
-        android:id="@+id/brightstr"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="120"
-        />
--->
+
     <EditText
         android:id="@+id/inputstr"
         android:layout_width="fill_parent"

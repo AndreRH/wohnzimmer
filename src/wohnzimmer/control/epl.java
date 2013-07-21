@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-/*import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;*/
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 //import java.lang.Byte;
 import java.io.IOException;
 
@@ -38,7 +38,7 @@ public class epl extends Activity
                 send_udp();
             }
         });
-/*
+
         SeekBar brightctrl = (SeekBar) findViewById(R.id.bright_bar);
         brightctrl.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             int progressChanged = 0;
@@ -61,7 +61,7 @@ public class epl extends Activity
             int progressChanged = 0;
  
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-                progressChanged = progress;
+                progressChanged = progress + 1;
             }
  
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -72,7 +72,7 @@ public class epl extends Activity
                 speed = (byte) progressChanged;
             }
         });
-*/
+
     }
 
     private static String bytesToHexString(byte[] bytes) {
