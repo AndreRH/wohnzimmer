@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+/*import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;*/
+//import java.lang.Byte;
 import java.io.IOException;
 
 import java.net.DatagramSocket;
@@ -20,6 +23,9 @@ import java.util.Formatter;
 
 public class epl extends Activity
 {
+    byte speed=2;
+    byte brightness=120;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -32,7 +38,41 @@ public class epl extends Activity
                 send_udp();
             }
         });
+/*
+        SeekBar brightctrl = (SeekBar) findViewById(R.id.bright_bar);
+        brightctrl.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            int progressChanged = 0;
+ 
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+                progressChanged = progress;
+            }
+ 
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+ 
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                brightness = (byte) progressChanged;
+            }
+        });
 
+        SeekBar speedctrl = (SeekBar) findViewById(R.id.speed_bar);
+        speedctrl.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+            int progressChanged = 0;
+ 
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+                progressChanged = progress;
+            }
+ 
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+ 
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                speed = (byte) progressChanged;
+            }
+        });
+*/
     }
 
     private static String bytesToHexString(byte[] bytes) {
@@ -46,14 +86,15 @@ public class epl extends Activity
         return sb.toString();  
     }
 
-    private static byte[] StringToMessge(byte command, byte spd, String str) {
-        byte[] bytes = new byte[2+str.length()+1];
+    private static byte[] StringToMessge(byte command, byte spd, byte brt, String str) {
+        byte[] bytes = new byte[3+str.length()+1];
         byte[] strb = str.getBytes();
 
         bytes[0] = command;
         bytes[1] = spd;
+        bytes[2] = brt;
         for(int i=1; i<=str.length(); i++) {
-            bytes[i+1] = strb[i-1];
+            bytes[i+2] = strb[i-1];
         }
 
         return bytes;  
@@ -87,13 +128,16 @@ public class epl extends Activity
                     s.close();
                     return null;
                 }
-
+/*
+                EditText speedstr = (EditText) findViewById(R.id.speedstr);
+                speed = Byte.parseByte(speedstr.getText().toString());
+                EditText brightstr = (EditText) findViewById(R.id.brightstr);
+                brightness = Byte.parseByte(brightstr.getText().toString());*/
                 EditText inputstr = (EditText) findViewById(R.id.inputstr);
                 String instr = inputstr.getText().toString();
-                byte spd=4;
-                byte[] message = StringToMessge((byte)185, spd, instr);
+                byte[] message = StringToMessge((byte)185, speed, brightness, instr);
 
-                DatagramPacket p = new DatagramPacket(message, instr.length()+3, local, server_port);
+                DatagramPacket p = new DatagramPacket(message, instr.length()+4, local, server_port);
                 s.send(p);
 
                 s.close();
@@ -112,8 +156,9 @@ public class epl extends Activity
             }
             if (ret!=null) {
                 TextView test2 = (TextView) findViewById(R.id.test2);
-                test2.append(bytesToHexString(ret));
-                test2.append(" -");
+                test2.setText(bytesToHexString(ret));
+                /*test2.append(bytesToHexString(ret));
+                test2.append(" -");*/
             }
         }
     }
