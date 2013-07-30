@@ -13,6 +13,24 @@
         android:text="@string/desc"
         />
 
+    <Spinner
+        android:id="@+id/cmd_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/inputstr"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Hello Android, this is a simple test!"
+        />
+    <Button android:id="@+id/sendudp"
+        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Senden"/>
+
     <LinearLayout
         android:id="@+id/refresh_match_layout"
         android:layout_width="fill_parent"
@@ -57,18 +75,6 @@
             android:secondaryProgress="0" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/inputstr"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="Hello Android, ordentlich langer Text"
-        />
-    <Button android:id="@+id/sendudp"
-        android:layout_marginBottom="16dp"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="Senden"/>
     <TextView android:id="@+id/test2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

@@ -7,24 +7,30 @@ import android.os.Bundle;
 import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-//import java.lang.Byte;
+import android.widget.Spinner;
 import java.io.IOException;
 
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.util.Calendar;
 import java.util.Formatter;
 
 public class epl extends Activity
 {
+    byte cmd=(byte) 185;
     byte speed=2;
     byte brightness=120;
+    byte clockmode=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -36,6 +42,21 @@ public class epl extends Activity
         sendudp.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 send_udp();
+            }
+        });
+
+        Spinner spinner = (Spinner) findViewById(R.id.cmd_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cmd_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+            public void onItemSelected(AdapterView parent, View view, int pos, long id) {
+                cmd = (byte)(pos + 185);
+                if (pos == 7) clockmode = 1; else clockmode = 0;
+            }
+
+            public void onNothingSelected(AdapterView parent) {
+                cmd = (byte) 185;
             }
         });
 
@@ -86,15 +107,26 @@ public class epl extends Activity
         return sb.toString();  
     }
 
-    private static byte[] StringToMessge(byte command, byte spd, byte brt, String str) {
-        byte[] bytes = new byte[3+str.length()+1];
+    private static byte[] StringToMessge(byte command, byte spd, byte brt, byte clockmode, String str) {
+        byte[] bytes = new byte[3+3+str.length()+1];
         byte[] strb = str.getBytes();
 
         bytes[0] = command;
         bytes[1] = spd;
         bytes[2] = brt;
-        for(int i=1; i<=str.length(); i++) {
-            bytes[i+2] = strb[i-1];
+        if (clockmode == 1) /* clock */
+        {
+            Calendar c = Calendar.getInstance();
+            bytes[3] = (byte) c.get(Calendar.HOUR_OF_DAY);
+            bytes[4] = (byte) c.get(Calendar.MINUTE);
+            bytes[5] = (byte) c.get(Calendar.SECOND);
+            bytes[6] = 0;
+        }
+        else
+        {
+            for (int i=1; i<=str.length(); i++) {
+                bytes[i+2] = strb[i-1];
+            }
         }
 
         return bytes;  
@@ -128,16 +160,12 @@ public class epl extends Activity
                     s.close();
                     return null;
                 }
-/*
-                EditText speedstr = (EditText) findViewById(R.id.speedstr);
-                speed = Byte.parseByte(speedstr.getText().toString());
-                EditText brightstr = (EditText) findViewById(R.id.brightstr);
-                brightness = Byte.parseByte(brightstr.getText().toString());*/
+
                 EditText inputstr = (EditText) findViewById(R.id.inputstr);
                 String instr = inputstr.getText().toString();
-                byte[] message = StringToMessge((byte)185, speed, brightness, instr);
+                byte[] message = StringToMessge(cmd, speed, brightness, clockmode, instr);
 
-                DatagramPacket p = new DatagramPacket(message, instr.length()+4, local, server_port);
+                DatagramPacket p = new DatagramPacket(message, instr.length()+7, local, server_port);
                 s.send(p);
 
                 s.close();
@@ -154,12 +182,12 @@ public class epl extends Activity
                 toast.show();
                 this.exception = null;
             }
+            /*
             if (ret!=null) {
                 TextView test2 = (TextView) findViewById(R.id.test2);
                 test2.setText(bytesToHexString(ret));
-                /*test2.append(bytesToHexString(ret));
-                test2.append(" -");*/
             }
+            */
         }
     }
 }
