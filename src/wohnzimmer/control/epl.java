@@ -44,6 +44,14 @@ public class epl extends Activity
             }
         });
 
+        Button clear = (Button) findViewById(R.id.clear);
+        clear.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                EditText inputstr = (EditText) findViewById(R.id.inputstr);
+                inputstr.setText("");
+            }
+        });
+
         Spinner spinner = (Spinner) findViewById(R.id.cmd_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cmd_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
