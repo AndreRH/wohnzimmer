@@ -27,10 +27,9 @@ import java.util.Formatter;
 
 public class epl extends Activity
 {
-    byte cmd=(byte) 185;
+    byte cmd=(byte)185;
     byte speed=2;
     byte brightness=120;
-    byte clockmode=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -52,7 +51,6 @@ public class epl extends Activity
         spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
             public void onItemSelected(AdapterView parent, View view, int pos, long id) {
                 cmd = (byte)(pos + 185);
-                if (pos == 7) clockmode = 1; else clockmode = 0;
             }
 
             public void onNothingSelected(AdapterView parent) {
@@ -107,16 +105,22 @@ public class epl extends Activity
         return sb.toString();  
     }
 
-    private static byte[] StringToMessge(byte command, byte spd, byte brt, byte clockmode, String str) {
+    private static byte[] StringToMessge(byte command, byte spd, byte brt, String str) {
         byte[] bytes = new byte[3+3+str.length()+1];
-        byte[] strb = str.getBytes();
+        byte[] strb;
+
+        try {
+            strb = str.getBytes("ISO-8859-1");
+        } catch (java.io.UnsupportedEncodingException e) {
+            strb = str.getBytes();
+        }
 
         bytes[0] = command;
-        if (clockmode == 1) /* Uhr */
+        if (command == (byte)(185 + 7)) /* Uhr */
         {
             Calendar c = Calendar.getInstance();
             bytes[1] = 1;
-            bytes[2] = 0;
+            bytes[2] = brt;
             bytes[3] = (byte) c.get(Calendar.HOUR_OF_DAY);
             bytes[4] = (byte) c.get(Calendar.MINUTE);
             bytes[5] = (byte) c.get(Calendar.SECOND);
@@ -127,7 +131,19 @@ public class epl extends Activity
             bytes[1] = spd;
             bytes[2] = brt;
             for (int i=1; i<=str.length(); i++) {
-                bytes[i+2] = strb[i-1];
+                byte tmpb = strb[i-1];
+
+                if (tmpb == (byte)0xc4) tmpb = (byte)0x80;      /* Ä */
+                else if (tmpb == (byte)0xd6) tmpb = (byte)0x81; /* Ö */
+                else if (tmpb == (byte)0xdc) tmpb = (byte)0x82; /* Ü */
+                else if (tmpb == (byte)0xe4) tmpb = (byte)0x83; /* ä */
+                else if (tmpb == (byte)0xf6) tmpb = (byte)0x84; /* ö */
+                else if (tmpb == (byte)0xfc) tmpb = (byte)0x85; /* ü */
+                else if (tmpb == (byte)0xdf) tmpb = (byte)0x86; /* ß */
+                else if (tmpb == (byte)0xe9) tmpb = (byte)0x87; /* é */
+                else if (tmpb == (byte)0xa4) tmpb = (byte)0x88; /* <3 */
+
+                bytes[i+2] = tmpb;
             }
         }
 
@@ -165,7 +181,7 @@ public class epl extends Activity
 
                 EditText inputstr = (EditText) findViewById(R.id.inputstr);
                 String instr = inputstr.getText().toString();
-                byte[] message = StringToMessge(cmd, speed, brightness, clockmode, instr);
+                byte[] message = StringToMessge(cmd, speed, brightness, instr);
 
                 DatagramPacket p = new DatagramPacket(message, instr.length()+7, local, server_port);
                 s.send(p);
@@ -184,6 +200,23 @@ public class epl extends Activity
                 toast.show();
                 this.exception = null;
             }
+
+            /*
+            {
+                TextView test2 = (TextView) findViewById(R.id.test2);
+                EditText inputstr = (EditText) findViewById(R.id.inputstr);
+                String instr = inputstr.getText().toString();
+                byte[] strb;
+                try {
+                    strb = instr.getBytes("ISO-8859-1");
+                } catch (java.io.UnsupportedEncodingException e) {
+                    Toast toast = Toast.makeText(context, "damn ISO-8859-1", Toast.LENGTH_SHORT);
+                    toast.show();
+                    strb = instr.getBytes();
+                }
+                test2.setText(bytesToHexString(strb));
+            }
+            */
             /*
             if (ret!=null) {
                 TextView test2 = (TextView) findViewById(R.id.test2);
