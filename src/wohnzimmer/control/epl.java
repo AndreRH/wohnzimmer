@@ -112,11 +112,11 @@ public class epl extends Activity
         byte[] strb = str.getBytes();
 
         bytes[0] = command;
-        bytes[1] = spd;
-        bytes[2] = brt;
-        if (clockmode == 1) /* clock */
+        if (clockmode == 1) /* Uhr */
         {
             Calendar c = Calendar.getInstance();
+            bytes[1] = 1;
+            bytes[2] = 0;
             bytes[3] = (byte) c.get(Calendar.HOUR_OF_DAY);
             bytes[4] = (byte) c.get(Calendar.MINUTE);
             bytes[5] = (byte) c.get(Calendar.SECOND);
@@ -124,6 +124,8 @@ public class epl extends Activity
         }
         else
         {
+            bytes[1] = spd;
+            bytes[2] = brt;
             for (int i=1; i<=str.length(); i++) {
                 bytes[i+2] = strb[i-1];
             }

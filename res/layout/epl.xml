@@ -70,7 +70,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:progress="1"
+            android:progress="0"
             android:max="15"
             android:secondaryProgress="0" />
     </LinearLayout>

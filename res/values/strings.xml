@@ -10,6 +10,7 @@
         <item>2 laden</item>       <!-- bd -->
         <item>3 laden</item>       <!-- be -->
         <item>LED-Test</item>      <!-- bf -->
-        <item>Clock</item>         <!-- c0 -->
+        <item>Uhr</item>           <!-- c0 -->
+        <item>Notify</item>        <!-- c1 -->
     </string-array>
 </resources>
