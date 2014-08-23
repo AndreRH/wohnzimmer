@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.io.*;
 import java.net.InetAddress;
@@ -31,6 +32,9 @@ public class lights extends Activity
     private Button red1;
     private Button red2;
     private Button eth2;
+
+    private TextView volt;
+    private String voltstr;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -81,6 +85,8 @@ public class lights extends Activity
                 startActivityForResult(myIntent, 0);
             }
         });
+
+        volt = (TextView) findViewById(R.id.volt);
     }
 
     @Override
@@ -94,11 +100,10 @@ public class lights extends Activity
     private void send_command(int bx, int an, int update)
     {
         SendTask sndtsk = new SendTask(this);
-            if (update>0)
-                sndtsk.execute("http://192.168.178.32/main.cgi");
-            else
-                sndtsk.execute("http://192.168.178.32/main.cgi?bx"+bx+"="+an);
-        return;
+        if (update>0)
+            sndtsk.execute("http://192.168.178.32/main.cgi");
+        else
+            sndtsk.execute("http://192.168.178.32/main.cgi?bx"+bx+"="+an);
     }
 
     private void send_command_tcp(int nr, int an, int update)
@@ -247,10 +252,19 @@ public class lights extends Activity
                     tcpout.write(cmd);
                     Thread.sleep(10);
                 }
+
                 tcpout.write(91);
                 Thread.sleep(10);
                 int ret = tcpinp.read();
                 if ((ret & 2) > 0) eth2an = 1; else eth2an = 0;
+
+                tcpout.write(93);
+                Thread.sleep(10);
+                ret = tcpinp.read();
+                double dret = ret;
+                dret /= 10.0;
+                voltstr = "Spannung: " + dret + " V";
+
                 Thread.sleep(10);
                 s.close();
             } catch (InterruptedException e) {
@@ -275,6 +289,7 @@ public class lights extends Activity
                 eth2.setTextColor(android.graphics.Color.rgb(241,67,20));
                 eth2.setBackgroundColor(android.graphics.Color.BLACK);
             }
+            volt.setText(voltstr);
         }
     }
 }
