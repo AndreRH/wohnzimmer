@@ -10,13 +10,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+import java.io.*;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.net.URL;
 import java.net.HttpURLConnection;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
 
 public class lights extends Activity
 {
@@ -24,11 +22,15 @@ public class lights extends Activity
     private int blau2an;
     private int rot1an;
     private int rot2an;
+    private int eth2an;
+
+    private int blocktcp;
     
     private Button blue1;
     private Button blue2;
     private Button red1;
     private Button red2;
+    private Button eth2;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -49,18 +51,25 @@ public class lights extends Activity
                 send_command(0, blau2an, 0);
             }
         });
-        
+
         red1 = (Button) findViewById(R.id.red1);
         red1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 send_command(4, rot1an, 0);
             }
         });
-        
+
         red2 = (Button) findViewById(R.id.red2);
         red2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 send_command(6, rot2an, 0);
+            }
+        });
+
+        eth2 = (Button) findViewById(R.id.eth2);
+        eth2.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                send_command_tcp(2, eth2an, 0);
             }
         });
 
@@ -79,6 +88,7 @@ public class lights extends Activity
     {
         super.onResume();
         send_command(0,0,1);
+        send_command_tcp(0,0,1);
     }
 
     private void send_command(int bx, int an, int update)
@@ -89,6 +99,15 @@ public class lights extends Activity
             else
                 sndtsk.execute("http://192.168.178.32/main.cgi?bx"+bx+"="+an);
         return;
+    }
+
+    private void send_command_tcp(int nr, int an, int update)
+    {
+        if (blocktcp > 0) return; else blocktcp = 1;
+        int cmd = 100 + nr + (an * 10);
+        TCPTask tcptsk = new TCPTask();
+        if (update > 0) cmd = 91;
+        tcptsk.execute(cmd, 0);
     }
 
     private class SendTask extends AsyncTask<String, Void, Void> {
@@ -209,6 +228,52 @@ public class lights extends Activity
             } catch (IOException e) {
                 Toast toast = Toast.makeText(context, "readStream failed: " + e.getMessage(), Toast.LENGTH_SHORT);
                 toast.show();
+            }
+        }
+    }
+
+    private class TCPTask extends AsyncTask<Integer, Void, Void> {
+
+        private Exception exception;
+
+        protected Void doInBackground(Integer... ints) {
+            int cmd = ints[0];
+            try {
+                Socket s = new Socket("192.168.178.33", 17494);
+                OutputStream tcpout = s.getOutputStream();
+                InputStream  tcpinp = s.getInputStream();
+                if (cmd != 91)
+                {
+                    tcpout.write(cmd);
+                    Thread.sleep(10);
+                }
+                tcpout.write(91);
+                Thread.sleep(10);
+                int ret = tcpinp.read();
+                if ((ret & 2) > 0) eth2an = 1; else eth2an = 0;
+                Thread.sleep(10);
+                s.close();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            /*} catch (UnknownHostException e) {
+                e.printStackTrace();*/
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(Void v) {
+            blocktcp = 0;
+            if (eth2an>0)
+            {
+                eth2.setTextColor(android.graphics.Color.BLACK);
+                eth2.setBackgroundColor(android.graphics.Color.rgb(241,67,20));
+            }
+            else
+            {
+                eth2.setTextColor(android.graphics.Color.rgb(241,67,20));
+                eth2.setBackgroundColor(android.graphics.Color.BLACK);
             }
         }
     }
