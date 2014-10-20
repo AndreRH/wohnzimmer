@@ -16,40 +16,45 @@
     <Button android:id="@+id/blue1"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:textColor="#0000ff"
-        android:text="Blau innen"/>
+        android:textColor="#3c6ff0"
+        android:text="Blau Seite"/>
     <Button android:id="@+id/blue2"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:textColor="#0000ff"
-        android:text="Blau hinten"/>
+        android:textColor="#3c6ff0"
+        android:text="Blau Stirn"/>
     <Button android:id="@+id/red1"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:textColor="#ff0000"
-        android:text="Rot links"/>
+        android:textColor="#ff3232"
+        android:text="Rot Stirn"/>
     <Button android:id="@+id/red2"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:textColor="#ff0000"
-        android:text="Rot rechts"/>
+        android:textColor="#ff3232"
+        android:text="Rot Seite"/>
     <Button android:id="@+id/eth2"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:textColor="#f14314"
         android:text="Pharao"/>
+    <Button android:id="@+id/eth1"
+        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:textColor="#2cff7a"
+        android:text="Boden"/>
+    <TextView android:id="@+id/volt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text=""/>
     <Button android:id="@+id/udp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:layout_width="match_parent" android:layout_height="wrap_content"
         android:text="epl"/>
-    <TextView android:id="@+id/volt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:text=""/>
 
 </LinearLayout>
 

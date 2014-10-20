@@ -23,6 +23,7 @@ public class lights extends Activity
     private int blau2an;
     private int rot1an;
     private int rot2an;
+    private int eth1an;
     private int eth2an;
 
     private int blocktcp;
@@ -31,6 +32,7 @@ public class lights extends Activity
     private Button blue2;
     private Button red1;
     private Button red2;
+    private Button eth1;
     private Button eth2;
 
     private TextView volt;
@@ -70,6 +72,13 @@ public class lights extends Activity
             }
         });
 
+        eth1 = (Button) findViewById(R.id.eth1);
+        eth1.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                send_command_tcp(1, eth1an, 0);
+            }
+        });
+
         eth2 = (Button) findViewById(R.id.eth2);
         eth2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -101,9 +110,9 @@ public class lights extends Activity
     {
         SendTask sndtsk = new SendTask(this);
         if (update>0)
-            sndtsk.execute("http://192.168.178.32/main.cgi");
+            sndtsk.execute("http://redblue/main.cgi");
         else
-            sndtsk.execute("http://192.168.178.32/main.cgi?bx"+bx+"="+an);
+            sndtsk.execute("http://redblue/main.cgi?bx"+bx+"="+an);
     }
 
     private void send_command_tcp(int nr, int an, int update)
@@ -163,41 +172,41 @@ public class lights extends Activity
             if (blau1an>0)
             {
                 blue1.setTextColor(android.graphics.Color.BLACK);
-                blue1.setBackgroundColor(android.graphics.Color.BLUE);
+                blue1.setBackgroundColor(android.graphics.Color.rgb(60,111,240));
             }
             else
             {
-                blue1.setTextColor(android.graphics.Color.BLUE);
+                blue1.setTextColor(android.graphics.Color.rgb(60,111,240));
                 blue1.setBackgroundColor(android.graphics.Color.BLACK);
             }
             if (blau2an>0)
             {
                 blue2.setTextColor(android.graphics.Color.BLACK);
-                blue2.setBackgroundColor(android.graphics.Color.BLUE);
+                blue2.setBackgroundColor(android.graphics.Color.rgb(60,111,240));
             }
             else
             {
-                blue2.setTextColor(android.graphics.Color.BLUE);
+                blue2.setTextColor(android.graphics.Color.rgb(60,111,240));
                 blue2.setBackgroundColor(android.graphics.Color.BLACK);
             }
             if (rot1an>0)
             {
                 red1.setTextColor(android.graphics.Color.BLACK);
-                red1.setBackgroundColor(android.graphics.Color.RED);
+                red1.setBackgroundColor(android.graphics.Color.rgb(255,50,50));
             }
             else
             {
-                red1.setTextColor(android.graphics.Color.RED);
+                red1.setTextColor(android.graphics.Color.rgb(255,50,50));
                 red1.setBackgroundColor(android.graphics.Color.BLACK);
             }
             if (rot2an>0)
             {
                 red2.setTextColor(android.graphics.Color.BLACK);
-                red2.setBackgroundColor(android.graphics.Color.RED);
+                red2.setBackgroundColor(android.graphics.Color.rgb(255,50,50));
             }
             else
             {
-                red2.setTextColor(android.graphics.Color.RED);
+                red2.setTextColor(android.graphics.Color.rgb(255,50,50));
                 red2.setBackgroundColor(android.graphics.Color.BLACK);
             }
         }
@@ -244,7 +253,7 @@ public class lights extends Activity
         protected Void doInBackground(Integer... ints) {
             int cmd = ints[0];
             try {
-                Socket s = new Socket("192.168.178.33", 17494);
+                Socket s = new Socket("greenhead", 17494);
                 OutputStream tcpout = s.getOutputStream();
                 InputStream  tcpinp = s.getInputStream();
                 if (cmd != 91)
@@ -256,6 +265,7 @@ public class lights extends Activity
                 tcpout.write(91);
                 Thread.sleep(10);
                 int ret = tcpinp.read();
+                if ((ret & 1) > 0) eth1an = 1; else eth1an = 0;
                 if ((ret & 2) > 0) eth2an = 1; else eth2an = 0;
 
                 tcpout.write(93);
@@ -279,6 +289,16 @@ public class lights extends Activity
 
         protected void onPostExecute(Void v) {
             blocktcp = 0;
+            if (eth1an>0)
+            {
+                eth1.setTextColor(android.graphics.Color.BLACK);
+                eth1.setBackgroundColor(android.graphics.Color.rgb(44,255,122));
+            }
+            else
+            {
+                eth1.setTextColor(android.graphics.Color.rgb(44,255,122));
+                eth1.setBackgroundColor(android.graphics.Color.BLACK);
+            }
             if (eth2an>0)
             {
                 eth2.setTextColor(android.graphics.Color.BLACK);
