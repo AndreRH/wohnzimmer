@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.Toast;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -141,8 +141,7 @@ public class lights extends Activity
                 try {
                     urlConnection = (HttpURLConnection) url.openConnection();
                 } catch (IOException e) {
-                    Toast toast = Toast.makeText(context, "openConnection failed: " + e.getMessage(), Toast.LENGTH_SHORT);
-                    toast.show();
+                    volt.setText("openConnection failed: " + e.getMessage());
                     return null;
                 }
                 try {
@@ -151,8 +150,7 @@ public class lights extends Activity
                     urlConnection.disconnect();
                     return null;
                 } catch (IOException e) {
-                    Toast toast = Toast.makeText(context, "BufferedInputStream failed: " + e.getMessage(), Toast.LENGTH_SHORT);
-                    toast.show();
+                    volt.setText("BufferedInputStream failed: " + e.getMessage());
                     urlConnection.disconnect();
                     return null;
                 }
@@ -164,8 +162,7 @@ public class lights extends Activity
 
         protected void onPostExecute(Void v) {
             if (this.exception!=null) {
-                Toast toast = Toast.makeText(context, this.exception.getMessage(), Toast.LENGTH_SHORT);
-                toast.show();
+                volt.setText(this.exception.getMessage());
                 this.exception = null;
             }
 
@@ -240,8 +237,7 @@ public class lights extends Activity
                     }
                 }
             } catch (IOException e) {
-                Toast toast = Toast.makeText(context, "readStream failed: " + e.getMessage(), Toast.LENGTH_SHORT);
-                toast.show();
+                volt.setText("readStream failed: " + e.getMessage());
             }
         }
     }
