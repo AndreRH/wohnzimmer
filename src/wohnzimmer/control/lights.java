@@ -38,6 +38,9 @@ public class lights extends Activity
     private TextView volt;
     private String voltstr;
 
+    private int errocc;
+    private String errstr;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -141,7 +144,8 @@ public class lights extends Activity
                 try {
                     urlConnection = (HttpURLConnection) url.openConnection();
                 } catch (IOException e) {
-                    volt.setText("openConnection failed: " + e.getMessage());
+                    errocc = 1;
+                    errstr = "openConnection failed: " + e.getMessage();
                     return null;
                 }
                 try {
@@ -150,7 +154,8 @@ public class lights extends Activity
                     urlConnection.disconnect();
                     return null;
                 } catch (IOException e) {
-                    volt.setText("BufferedInputStream failed: " + e.getMessage());
+                    errocc = 1;
+                    errstr = "BufferedInputStream failed: " + e.getMessage();
                     urlConnection.disconnect();
                     return null;
                 }
@@ -162,7 +167,8 @@ public class lights extends Activity
 
         protected void onPostExecute(Void v) {
             if (this.exception!=null) {
-                volt.setText(this.exception.getMessage());
+                errocc = 1;
+                errstr = "this: " + this.exception.getMessage();
                 this.exception = null;
             }
 
@@ -206,6 +212,9 @@ public class lights extends Activity
                 red2.setTextColor(android.graphics.Color.rgb(255,50,50));
                 red2.setBackgroundColor(android.graphics.Color.BLACK);
             }
+            if (errocc>0)
+                volt.setText(errstr);
+            errocc = 0;
         }
 
 
@@ -237,7 +246,8 @@ public class lights extends Activity
                     }
                 }
             } catch (IOException e) {
-                volt.setText("readStream failed: " + e.getMessage());
+                errocc = 1;
+                errstr = "readStream failed: " + e.getMessage();
             }
         }
     }
@@ -274,10 +284,14 @@ public class lights extends Activity
                 Thread.sleep(10);
                 s.close();
             } catch (InterruptedException e) {
+                errocc = 1;
+                errstr = "InterruptedException: " + e.getMessage();
                 e.printStackTrace();
             /*} catch (UnknownHostException e) {
                 e.printStackTrace();*/
             } catch (IOException e) {
+                errocc = 1;
+                errstr = "IOException: " + e.getMessage();
                 e.printStackTrace();
             }
             return null;
@@ -305,7 +319,11 @@ public class lights extends Activity
                 eth2.setTextColor(android.graphics.Color.rgb(241,67,20));
                 eth2.setBackgroundColor(android.graphics.Color.BLACK);
             }
-            volt.setText(voltstr);
+            if (errocc>0)
+                volt.setText(errstr);
+            else
+                volt.setText(voltstr);
+            errocc = 0;
         }
     }
 }
