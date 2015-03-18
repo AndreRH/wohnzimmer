@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="luv ya luv ya luv ya luv ya luv ya luv ya"
+        android:text="Und du, Sudden? Was würdst' du mit 'ner Zeitmaschine machen?"
         />
     <Button android:id="@+id/sendudp"
         android:layout_marginBottom="16dp"
