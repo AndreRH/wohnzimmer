@@ -6,12 +6,16 @@ import android.content.Intent;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.AsyncTask;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.TextView;
 //import android.widget.Toast;
 import java.io.*;
+import java.net.DatagramSocket;
+import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URL;
@@ -34,6 +38,8 @@ public class lights extends Activity
     private Button red2;
     private Button eth1;
     private Button eth2;
+    private Button zsun1;
+    private Button zsun1d;
 
     private TextView volt;
     private String voltstr;
@@ -89,6 +95,24 @@ public class lights extends Activity
             }
         });
 
+        zsun1 = (Button) findViewById(R.id.zsun1);
+        zsun1.setOnTouchListener(new OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch ( event.getAction() ) {
+                case MotionEvent.ACTION_DOWN: send_command_udp(1, 1); break;
+                case MotionEvent.ACTION_UP:   send_command_udp(1, 0); break;
+                }
+                return true;
+            }
+        });
+
+        zsun1d = (Button) findViewById(R.id.zsun1d);
+        zsun1d.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                send_command_udp(1, 2);
+            }
+        });
+
         Button udp = (Button) findViewById(R.id.udp);
         udp.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -125,6 +149,12 @@ public class lights extends Activity
         TCPTask tcptsk = new TCPTask();
         if (update > 0) cmd = 91;
         tcptsk.execute(cmd, 0);
+    }
+
+    private void send_command_udp(int nr, int cmd)
+    {
+        UdpTask udptsk = new UdpTask(this);
+        udptsk.execute(nr, cmd);
     }
 
     private class SendTask extends AsyncTask<String, Void, Void> {
@@ -286,13 +316,13 @@ public class lights extends Activity
             } catch (InterruptedException e) {
                 errocc = 1;
                 errstr = "InterruptedException: " + e.getMessage();
-                e.printStackTrace();
+                //e.printStackTrace();
             /*} catch (UnknownHostException e) {
                 e.printStackTrace();*/
             } catch (IOException e) {
                 errocc = 1;
                 errstr = "IOException: " + e.getMessage();
-                e.printStackTrace();
+                //e.printStackTrace();
             }
             return null;
         }
@@ -323,6 +353,64 @@ public class lights extends Activity
                 volt.setText(errstr);
             else
                 volt.setText(voltstr);
+            errocc = 0;
+        }
+    }
+
+    private class UdpTask extends AsyncTask<Integer, Void, Void> {
+
+        private Exception exception;
+
+        private Context context;
+
+        public UdpTask(Context context) {
+            this.context = context;
+        }
+
+        protected Void doInBackground(Integer... ints) {
+            int zsun = ints[0];
+            int cmd  = ints[1];
+
+            if (zsun != 1) return null;
+
+            try {
+                InetAddress local;
+                DatagramSocket s;
+                int server_port = 32201;
+                s = new DatagramSocket();
+                try {
+                    local = InetAddress.getByName("zsun1");
+                } catch (java.net.UnknownHostException e) {
+                    s.close();
+                    return null;
+                }
+
+                byte[] bytes = new byte[1];
+                if (cmd == 1)
+                    bytes[0] = 1;
+                else if (cmd == 2)
+                    bytes[0] = 2;
+                else
+                {
+                    bytes[0] = 0;
+                    Thread.sleep(66);
+                }
+
+                DatagramPacket p = new DatagramPacket(bytes, 1, local, server_port);
+                s.send(p);
+
+                s.close();
+                return null;
+            } catch (Exception e) {
+                errocc = 1;
+                errstr = "IOException: " + e.getMessage();
+                return null;
+            }
+        }
+
+        protected void onPostExecute(Void v) {
+            if (errocc>0)
+                volt.setText(errstr);
             errocc = 0;
         }
     }
