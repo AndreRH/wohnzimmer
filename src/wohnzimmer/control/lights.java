@@ -17,6 +17,7 @@ import java.io.*;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
 import java.net.HttpURLConnection;
@@ -31,7 +32,7 @@ public class lights extends Activity
     private int eth2an;
 
     private int blocktcp;
-    
+
     private Button blue1;
     private Button blue2;
     private Button red1;
@@ -136,7 +137,7 @@ public class lights extends Activity
     private void send_command(int bx, int an, int update)
     {
         SendTask sndtsk = new SendTask(this);
-        if (update>0)
+        if (update > 0)
             sndtsk.execute("http://redblue/main.cgi");
         else
             sndtsk.execute("http://redblue/main.cgi?bx"+bx+"="+an);
@@ -173,6 +174,7 @@ public class lights extends Activity
                 URL url= new URL(urls[0]);
                 try {
                     urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setConnectTimeout(50);
                 } catch (IOException e) {
                     errocc = 1;
                     errstr = "openConnection failed: " + e.getMessage();
@@ -251,7 +253,7 @@ public class lights extends Activity
         private void readStream(InputStream is) {
             try {
                 String line;
-                BufferedReader r = new BufferedReader(new InputStreamReader(is),250);  
+                BufferedReader r = new BufferedReader(new InputStreamReader(is),250);
                 while ((line = r.readLine()) != null) {
                     if(line.contains("script")==true && line.contains("ln")==true)
                     {
@@ -289,7 +291,8 @@ public class lights extends Activity
         protected Void doInBackground(Integer... ints) {
             int cmd = ints[0];
             try {
-                Socket s = new Socket("greenhead", 17494);
+                Socket s = new Socket();
+                s.connect(new InetSocketAddress("greenhead", 17494), 50);
                 OutputStream tcpout = s.getOutputStream();
                 InputStream  tcpinp = s.getInputStream();
                 if (cmd != 91)
@@ -393,7 +396,7 @@ public class lights extends Activity
                 else
                 {
                     bytes[0] = 0;
-                    Thread.sleep(66);
+                    Thread.sleep(90);
                 }
 
                 DatagramPacket p = new DatagramPacket(bytes, 1, local, server_port);
