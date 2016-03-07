@@ -394,10 +394,7 @@ public class lights extends Activity
                 else if (cmd == 2)
                     bytes[0] = 2;
                 else
-                {
                     bytes[0] = 0;
-                    Thread.sleep(90);
-                }
 
                 DatagramPacket p = new DatagramPacket(bytes, 1, local, server_port);
                 s.send(p);
