@@ -31,6 +31,8 @@ public class lights extends Activity
     private int eth1an;
     private int eth2an;
 
+    private int zsun1available;
+
     private int blocktcp;
 
     private Button blue1;
@@ -132,6 +134,7 @@ public class lights extends Activity
         super.onResume();
         send_command(0,0,1);
         send_command_tcp(0,0,1);
+        send_command_udp(1, 3);
     }
 
     private void send_command(int bx, int an, int update)
@@ -371,15 +374,17 @@ public class lights extends Activity
         }
 
         protected Void doInBackground(Integer... ints) {
+            DatagramSocket s = null;
             int zsun = ints[0];
             int cmd  = ints[1];
 
+            zsun1available = 0;
             if (zsun != 1) return null;
 
             try {
                 InetAddress local;
-                DatagramSocket s;
                 int server_port = 32201;
+
                 s = new DatagramSocket();
                 try {
                     local = InetAddress.getByName("zsun1");
@@ -387,19 +392,34 @@ public class lights extends Activity
                     s.close();
                     return null;
                 }
+                s.setSoTimeout(42);
 
                 byte[] bytes = new byte[1];
                 if (cmd == 1)
                     bytes[0] = 1;
                 else if (cmd == 2)
                     bytes[0] = 2;
+                else if (cmd == 3)
+                    bytes[0] = 3;
                 else
                     bytes[0] = 0;
 
-                DatagramPacket p = new DatagramPacket(bytes, 1, local, server_port);
+                DatagramPacket p = new DatagramPacket(bytes, bytes.length, local, server_port);
                 s.send(p);
 
+                DatagramPacket r = new DatagramPacket(bytes, bytes.length);
+                s.receive(r);
+                zsun1available = 1;
+
                 s.close();
+                return null;
+            } catch (InterruptedIOException e) {
+                if (s != null)
+                {
+                    zsun1available = 0;
+                    s.close();
+                    s = null;
+                }
                 return null;
             } catch (Exception e) {
                 errocc = 1;
@@ -412,6 +432,21 @@ public class lights extends Activity
             if (errocc>0)
                 volt.setText(errstr);
             errocc = 0;
+
+            if (zsun1available>0)
+            {
+                zsun1.setTextColor(android.graphics.Color.BLACK);
+                zsun1.setBackgroundColor(android.graphics.Color.GRAY);
+                zsun1d.setTextColor(android.graphics.Color.BLACK);
+                zsun1d.setBackgroundColor(android.graphics.Color.GRAY);
+            }
+            else
+            {
+                zsun1.setTextColor(android.graphics.Color.GRAY);
+                zsun1.setBackgroundColor(android.graphics.Color.DKGRAY);
+                zsun1d.setTextColor(android.graphics.Color.GRAY);
+                zsun1d.setBackgroundColor(android.graphics.Color.DKGRAY);
+            }
         }
     }
 }
