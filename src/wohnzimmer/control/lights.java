@@ -59,28 +59,28 @@ public class lights extends Activity
         blue1 = (Button) findViewById(R.id.blue1);
         blue1.setOnClickListener(new OnClickListener() {
             public void onClick(View v)  {
-                send_command(2, blau1an, 0);
+                send_command_http(2, blau1an, 0);
             }
         });
 
         blue2 = (Button) findViewById(R.id.blue2);
         blue2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command(0, blau2an, 0);
+                send_command_http(0, blau2an, 0);
             }
         });
 
         red1 = (Button) findViewById(R.id.red1);
         red1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command(4, rot1an, 0);
+                send_command_http(4, rot1an, 0);
             }
         });
 
         red2 = (Button) findViewById(R.id.red2);
         red2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command(6, rot2an, 0);
+                send_command_http(6, rot2an, 0);
             }
         });
 
@@ -132,12 +132,12 @@ public class lights extends Activity
     public void onResume()
     {
         super.onResume();
-        send_command(0,0,1);
+        send_command_http(0,0,1);
         send_command_tcp(0,0,1);
         send_command_udp(1, 3);
     }
 
-    private void send_command(int bx, int an, int update)
+    private void send_command_http(int bx, int an, int update)
     {
         SendTask sndtsk = new SendTask(this);
         if (update > 0)
