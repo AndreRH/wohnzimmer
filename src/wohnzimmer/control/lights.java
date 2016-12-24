@@ -30,6 +30,8 @@ public class lights extends Activity
     private int rot2an;
     private int eth1an;
     private int eth2an;
+    private int unit8an;
+    private int unit4an;
 
     private int zsun1available;
 
@@ -39,8 +41,12 @@ public class lights extends Activity
     private Button blue2;
     private Button red1;
     private Button red2;
+    private Button udp;
     private Button eth1;
     private Button eth2;
+    private Button mylight8;
+    private Button mylight8d;
+    private Button mylight4;
     private Button zsun1;
     private Button zsun1d;
 
@@ -98,6 +104,27 @@ public class lights extends Activity
             }
         });
 
+        mylight8 = (Button) findViewById(R.id.mylight8);
+        mylight8.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                send_command_http("http://odroid64:12000/main.cgi?s=17&u=8&t="+(1 - unit8an));
+            }
+        });
+
+        mylight8d = (Button) findViewById(R.id.mylight8d);
+        mylight8d.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                send_command_http("http://odroid64:12000/main.cgi?s=17&u=8&t=0&delay=10");
+            }
+        });
+
+        mylight4 = (Button) findViewById(R.id.mylight4);
+        mylight4.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                send_command_http("http://odroid64:12000/main.cgi?s=17&u=4&t="+(1 - unit4an));
+            }
+        });
+
         zsun1 = (Button) findViewById(R.id.zsun1);
         zsun1.setOnTouchListener(new OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
@@ -116,7 +143,7 @@ public class lights extends Activity
             }
         });
 
-        Button udp = (Button) findViewById(R.id.udp);
+        udp = (Button) findViewById(R.id.udp);
         udp.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 Intent myIntent = new Intent(v.getContext(), epl.class);
@@ -133,6 +160,7 @@ public class lights extends Activity
     {
         super.onResume();
         send_command_http("http://redblue/main.cgi");
+        send_command_http("http://odroid64:12000/main.cgi");
         send_command_tcp(0,0,1);
         send_command_udp(1, 3);
     }
@@ -244,6 +272,34 @@ public class lights extends Activity
                 red2.setTextColor(android.graphics.Color.rgb(255,50,50));
                 red2.setBackgroundColor(android.graphics.Color.BLACK);
             }
+            if (unit8an>0)
+            {
+                mylight8.setTextColor(android.graphics.Color.BLACK);
+                mylight8.setBackgroundColor(android.graphics.Color.GRAY);
+                mylight8d.setTextColor(android.graphics.Color.BLACK);
+                mylight8d.setBackgroundColor(android.graphics.Color.GRAY);
+            }
+            else
+            {
+                mylight8.setTextColor(android.graphics.Color.GRAY);
+                mylight8.setBackgroundColor(android.graphics.Color.DKGRAY);
+                mylight8d.setTextColor(android.graphics.Color.GRAY);
+                mylight8d.setBackgroundColor(android.graphics.Color.DKGRAY);
+            }
+            if (unit4an>0)
+            {
+                mylight4.setTextColor(android.graphics.Color.BLACK);
+                mylight4.setBackgroundColor(android.graphics.Color.GRAY);
+                udp.setTextColor(android.graphics.Color.BLACK);
+                udp.setBackgroundColor(android.graphics.Color.GRAY);
+            }
+            else
+            {
+                mylight4.setTextColor(android.graphics.Color.GRAY);
+                mylight4.setBackgroundColor(android.graphics.Color.DKGRAY);
+                udp.setTextColor(android.graphics.Color.GRAY);
+                udp.setBackgroundColor(android.graphics.Color.DKGRAY);
+            }
             if (errocc>0)
                 volt.setText(errstr);
             errocc = 0;
@@ -271,6 +327,21 @@ public class lights extends Activity
                                 break;
                             case '6':
                                 if (an == '1') rot2an=1; else rot2an=0;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    if(line.contains("unit")==true && line.contains("=")==true)
+                    {
+                        char an = line.charAt(line.indexOf("=") + 1);
+                        switch(line.charAt(line.indexOf("unit") + 4))
+                        {
+                            case '8':
+                                if (an == '1') unit8an=1; else unit8an=0;
+                                break;
+                            case '4':
+                                if (an == '1') unit4an=1; else unit4an=0;
                                 break;
                             default:
                                 break;
