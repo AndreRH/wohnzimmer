@@ -130,6 +130,14 @@
         </TableRow>
     </TableLayout>
 
+    <Button android:id="@+id/mylight14"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:background="#000000"
+        android:textColor="#888888"
+        android:text="Wasser"/>
+
     <TextView android:id="@+id/volt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

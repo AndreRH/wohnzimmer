@@ -30,6 +30,7 @@ public class lights extends Activity
     private int rot2an;
     private int eth1an;
     private int eth2an;
+    private int unit14an;
     private int unit8an;
     private int unit4an;
 
@@ -44,6 +45,7 @@ public class lights extends Activity
     private Button udp;
     private Button eth1;
     private Button eth2;
+    private Button mylight14;
     private Button mylight8;
     private Button mylight8d;
     private Button mylight4;
@@ -101,6 +103,13 @@ public class lights extends Activity
         eth2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 send_command_tcp(2, eth2an, 0);
+            }
+        });
+
+        mylight14 = (Button) findViewById(R.id.mylight14);
+        mylight14.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                send_command_http("http://odroid64:12000/main.cgi?s=35&u=14&t="+(1 - unit14an));
             }
         });
 
@@ -272,6 +281,16 @@ public class lights extends Activity
                 red2.setTextColor(android.graphics.Color.rgb(255,50,50));
                 red2.setBackgroundColor(android.graphics.Color.BLACK);
             }
+            if (unit14an>0)
+            {
+                mylight14.setTextColor(android.graphics.Color.BLACK);
+                mylight14.setBackgroundColor(android.graphics.Color.GRAY);
+            }
+            else
+            {
+                mylight14.setTextColor(android.graphics.Color.GRAY);
+                mylight14.setBackgroundColor(android.graphics.Color.DKGRAY);
+            }
             if (unit8an>0)
             {
                 mylight8.setTextColor(android.graphics.Color.BLACK);
@@ -335,12 +354,15 @@ public class lights extends Activity
                     if(line.contains("unit")==true && line.contains("=")==true)
                     {
                         char an = line.charAt(line.indexOf("=") + 1);
-                        switch(line.charAt(line.indexOf("unit") + 4))
+                        switch(Integer.parseInt(line.substring(line.indexOf("unit") + 4, line.indexOf("unit") + 6)))
                         {
-                            case '8':
+                            case 14:
+                                if (an == '1') unit14an=1; else unit14an=0;
+                                break;
+                            case 8:
                                 if (an == '1') unit8an=1; else unit8an=0;
                                 break;
-                            case '4':
+                            case 4:
                                 if (an == '1') unit4an=1; else unit4an=0;
                                 break;
                             default:
