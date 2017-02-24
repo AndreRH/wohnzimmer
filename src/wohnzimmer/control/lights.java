@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Context;
-import android.os.Bundle;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,6 +35,9 @@ public class lights extends Activity
     private int unit14an;
     private int unit8an;
     private int unit4an;
+    private int unit2an;
+
+    private int wzwaran;
 
     private int zsun1available;
 
@@ -67,42 +72,108 @@ public class lights extends Activity
         blue1 = (Button) findViewById(R.id.blue1);
         blue1.setOnClickListener(new OnClickListener() {
             public void onClick(View v)  {
-                send_command_http("http://redblue/main.cgi?bx2="+blau1an);
+                if (unit2an > 0)
+                    send_command_http("http://redblue/main.cgi?bx2="+blau1an);
+                else
+                {
+                    Handler handler = new Handler();
+                    send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=1");
+                    handler.postDelayed(new Runnable() {
+                         public void run() {
+                            send_command_http("http://redblue/main.cgi?bx2="+blau1an);
+                         }
+                    }, 9000);
+                }
             }
         });
 
         blue2 = (Button) findViewById(R.id.blue2);
         blue2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://redblue/main.cgi?bx0="+blau2an);
+                if (unit2an > 0)
+                    send_command_http("http://redblue/main.cgi?bx0="+blau2an);
+                else
+                {
+                    Handler handler = new Handler();
+                    send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=1");
+                    handler.postDelayed(new Runnable() {
+                         public void run() {
+                            send_command_http("http://redblue/main.cgi?bx0="+blau2an);
+                         }
+                    }, 9000);
+                }
             }
         });
 
         red1 = (Button) findViewById(R.id.red1);
         red1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://redblue/main.cgi?bx4="+rot1an);
+                if (unit2an > 0)
+                    send_command_http("http://redblue/main.cgi?bx4="+rot1an);
+                else
+                {
+                    Handler handler = new Handler();
+                    send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=1");
+                    handler.postDelayed(new Runnable() {
+                         public void run() {
+                            send_command_http("http://redblue/main.cgi?bx4="+rot1an);
+                         }
+                    }, 9000);
+                }
             }
         });
 
         red2 = (Button) findViewById(R.id.red2);
         red2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://redblue/main.cgi?bx6="+rot2an);
+                if (unit2an > 0)
+                    send_command_http("http://redblue/main.cgi?bx6="+rot2an);
+                else
+                {
+                    Handler handler = new Handler();
+                    send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=1");
+                    handler.postDelayed(new Runnable() {
+                         public void run() {
+                            send_command_http("http://redblue/main.cgi?bx6="+rot2an);
+                         }
+                    }, 9000);
+                }
             }
         });
 
         eth1 = (Button) findViewById(R.id.eth1);
         eth1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_tcp(1, eth1an, 0);
+                if (unit2an > 0)
+                    send_command_tcp(1, eth1an, 0);
+                else
+                {
+                    Handler handler = new Handler();
+                    send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=1");
+                    handler.postDelayed(new Runnable() {
+                         public void run() {
+                            send_command_tcp(1, eth1an, 0);
+                         }
+                    }, 5555);
+                }
             }
         });
 
         eth2 = (Button) findViewById(R.id.eth2);
         eth2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_tcp(2, eth2an, 0);
+                if (unit2an > 0)
+                    send_command_tcp(2, eth2an, 0);
+                else
+                {
+                    Handler handler = new Handler();
+                    send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=1");
+                    handler.postDelayed(new Runnable() {
+                         public void run() {
+                            send_command_tcp(1, eth1an, 0);
+                         }
+                    }, 5555);
+                }
             }
         });
 
@@ -319,6 +390,16 @@ public class lights extends Activity
                 udp.setTextColor(android.graphics.Color.GRAY);
                 udp.setBackgroundColor(android.graphics.Color.DKGRAY);
             }
+            if (wzwaran > 0 && blau1an == 0 && blau2an == 0 && rot1an == 0 && rot2an == 0 && eth1an == 0 && eth2an == 0)
+            {
+                send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=0");
+                wzwaran = 0;
+            }
+            else if (blau1an > 0 || blau2an > 0 || rot1an > 0 || rot2an > 0 || eth1an > 0 || eth2an > 0)
+            {
+                wzwaran = 1;
+                unit2an = 1;
+            }
             if (errocc>0)
                 volt.setText(errstr);
             errocc = 0;
@@ -364,6 +445,19 @@ public class lights extends Activity
                                 break;
                             case 4:
                                 if (an == '1') unit4an=1; else unit4an=0;
+                                break;
+                            case 2:
+                                if (an == '1')
+                                {
+                                    Handler handler = new Handler(Looper.getMainLooper());
+                                    handler.postDelayed(new Runnable() {
+                                         public void run() {
+                                            unit2an=1;
+                                         }
+                                    }, 4444);
+                                }
+                                else
+                                    unit2an=0;
                                 break;
                             default:
                                 break;
@@ -444,6 +538,16 @@ public class lights extends Activity
             {
                 eth2.setTextColor(android.graphics.Color.rgb(241,67,20));
                 eth2.setBackgroundColor(android.graphics.Color.BLACK);
+            }
+            if (wzwaran > 0 && blau1an == 0 && blau2an == 0 && rot1an == 0 && rot2an == 0 && eth1an == 0 && eth2an == 0)
+            {
+                send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=0");
+                wzwaran = 0;
+            }
+            else if (blau1an > 0 || blau2an > 0 || rot1an > 0 || rot2an > 0 || eth1an > 0 || eth2an > 0)
+            {
+                wzwaran = 1;
+                unit2an = 1;
             }
             if (errocc>0)
                 volt.setText(errstr);
