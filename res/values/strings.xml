@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Wohnzimmer</string>
-    <string name="desc">v0.9.4 Copyright 2012-2017 André Hentschel</string>
+    <string name="desc">v0.9.5 Copyright 2012-2017 André Hentschel</string>
     <string-array name="cmd_array">
         <item>nur anzeigen</item>  <!-- b9 -->
         <item>speichern</item>     <!-- ba -->

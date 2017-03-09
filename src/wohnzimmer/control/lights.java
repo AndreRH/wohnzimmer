@@ -33,6 +33,7 @@ public class lights extends Activity
     private int eth1an;
     private int eth2an;
     private int unit14an;
+    private int unit15an;
     private int unit8an;
     private int unit4an;
     private int unit2an;
@@ -50,6 +51,7 @@ public class lights extends Activity
     private Button udp;
     private Button eth1;
     private Button eth2;
+    private Button mylight15;
     private Button mylight14;
     private Button mylight8;
     private Button mylight8d;
@@ -170,21 +172,28 @@ public class lights extends Activity
                     send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=1");
                     handler.postDelayed(new Runnable() {
                          public void run() {
-                            send_command_tcp(1, eth1an, 0);
+                            send_command_tcp(2, eth2an, 0);
                          }
                     }, 5555);
                 }
             }
         });
 
-        mylight14 = (Button) findViewById(R.id.mylight14);
+        mylight14 = (Button) findViewById(R.id.mylight14); //water
         mylight14.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 send_command_http("http://odroid64:12000/main.cgi?s=35&u=14&t="+(1 - unit14an));
             }
         });
 
-        mylight8 = (Button) findViewById(R.id.mylight8);
+        mylight15 = (Button) findViewById(R.id.mylight15); //bed
+        mylight15.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                send_command_http("http://odroid64:12000/main.cgi?s=35&u=15&t="+(1 - unit15an));
+            }
+        });
+
+        mylight8 = (Button) findViewById(R.id.mylight8); //tv
         mylight8.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 send_command_http("http://odroid64:12000/main.cgi?s=17&u=8&t="+(1 - unit8an));
@@ -194,11 +203,23 @@ public class lights extends Activity
         mylight8d = (Button) findViewById(R.id.mylight8d);
         mylight8d.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://odroid64:12000/main.cgi?s=17&u=8&t=0&delay=10");
+                Handler handler1 = new Handler();
+                handler1.postDelayed(new Runnable() {
+                     public void run() {
+                        send_command_http("http://odroid64:12000/main.cgi?s=17&u=8&t=0");
+                     }
+                }, 10000);
+                Handler handler2 = new Handler();
+                handler2.postDelayed(new Runnable() {
+                     public void run() {
+                        send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=0");
+                        wzwaran = 0;
+                     }
+                }, 11234);
             }
         });
 
-        mylight4 = (Button) findViewById(R.id.mylight4);
+        mylight4 = (Button) findViewById(R.id.mylight4); //epl
         mylight4.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 send_command_http("http://odroid64:12000/main.cgi?s=17&u=4&t="+(1 - unit4an));
@@ -362,6 +383,16 @@ public class lights extends Activity
                 mylight14.setTextColor(android.graphics.Color.GRAY);
                 mylight14.setBackgroundColor(android.graphics.Color.DKGRAY);
             }
+            if (unit15an>0)
+            {
+                mylight15.setTextColor(android.graphics.Color.BLACK);
+                mylight15.setBackgroundColor(android.graphics.Color.GRAY);
+            }
+            else
+            {
+                mylight15.setTextColor(android.graphics.Color.GRAY);
+                mylight15.setBackgroundColor(android.graphics.Color.DKGRAY);
+            }
             if (unit8an>0)
             {
                 mylight8.setTextColor(android.graphics.Color.BLACK);
@@ -437,6 +468,9 @@ public class lights extends Activity
                         char an = line.charAt(line.indexOf("=") + 1);
                         switch(Integer.parseInt(line.substring(line.indexOf("unit") + 4, line.indexOf("unit") + 6)))
                         {
+                            case 15:
+                                if (an == '1') unit15an=1; else unit15an=0;
+                                break;
                             case 14:
                                 if (an == '1') unit14an=1; else unit14an=0;
                                 break;
@@ -602,6 +636,7 @@ public class lights extends Activity
                 s.send(p);
 
                 DatagramPacket r = new DatagramPacket(bytes, bytes.length);
+                Thread.sleep(10);
                 s.receive(r);
                 zsun1available = 1;
 

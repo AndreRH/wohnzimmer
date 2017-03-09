@@ -100,7 +100,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:textColor="#5c2b33"
-                android:text="Deckenlicht"/>
+                android:text="Decke"/>
         </TableRow>
         <TableRow
             android:id="@+id/tableRow4"
@@ -126,17 +126,37 @@
                 android:layout_marginRight="16dp"
                 android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:textColor="#5c2b33"
-                android:text="Deckenlicht 10s"/>
+                android:text="Decke 10s"/>
         </TableRow>
     </TableLayout>
-
-    <Button android:id="@+id/mylight14"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:background="#000000"
-        android:textColor="#888888"
-        android:text="Wasser"/>
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tableLayout2"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="16dp"
+        android:gravity="center">
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_marginBottom="16dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <Button android:id="@+id/mylight15"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:background="#000000"
+                android:textColor="#888888"
+                android:text="Bett"/>
+            <Button android:id="@+id/mylight14"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:background="#000000"
+                android:textColor="#888888"
+                android:text="Wasser"/>
+        </TableRow>
+    </TableLayout>
 
     <TextView android:id="@+id/volt"
         android:layout_width="match_parent"
