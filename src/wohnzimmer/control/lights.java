@@ -203,13 +203,15 @@ public class lights extends Activity
         mylight8d = (Button) findViewById(R.id.mylight8d);
         mylight8d.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
+                send_command_http("http://odroid64:12000/main.cgi?s=35&u=15&t=1");
+                send_command_http("http://odroid64:12000/main.cgi?s=35&u=15&t=1");
                 Handler handler1 = new Handler();
                 handler1.postDelayed(new Runnable() {
                      public void run() {
                         send_command_http("http://odroid64:12000/main.cgi?s=17&u=8&t=0");
                         send_command_http("http://odroid64:12000/main.cgi?s=17&u=8&t=0");
                      }
-                }, 10000);
+                }, 5000);
                 Handler handler2 = new Handler();
                 handler2.postDelayed(new Runnable() {
                      public void run() {
@@ -217,21 +219,14 @@ public class lights extends Activity
                         send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=0");
                         wzwaran = 0;
                      }
-                }, 11234);
+                }, 7000);
                 Handler handler3 = new Handler();
                 handler3.postDelayed(new Runnable() {
                      public void run() {
-                        send_command_http("http://odroid64:12000/main.cgi?s=35&u=15&t=1");
-                        send_command_http("http://odroid64:12000/main.cgi?s=35&u=15&t=1");
-                     }
-                }, 12345);
-                Handler handler4 = new Handler();
-                handler4.postDelayed(new Runnable() {
-                     public void run() {
                         send_command_http("http://odroid64:12000/main.cgi?s=35&u=15&t=0");
                         send_command_http("http://odroid64:12000/main.cgi?s=35&u=15&t=0");
                      }
-                }, 34567);
+                }, 15000);
             }
         });
 
