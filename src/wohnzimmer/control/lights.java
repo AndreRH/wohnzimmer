@@ -144,7 +144,7 @@ public class lights extends Activity
             }
         });
 
-        eth1 = (Button) findViewById(R.id.eth1);
+        eth1 = (Button) findViewById(R.id.eth1); //tv
         eth1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 if (unit2an > 0)
@@ -162,7 +162,7 @@ public class lights extends Activity
             }
         });
 
-        eth2 = (Button) findViewById(R.id.eth2);
+        eth2 = (Button) findViewById(R.id.eth2); //pharao
         eth2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 if (unit2an > 0)
@@ -180,7 +180,7 @@ public class lights extends Activity
             }
         });
 
-        mylight14 = (Button) findViewById(R.id.mylight14); //water
+        mylight14 = (Button) findViewById(R.id.mylight14); //mirror
         mylight14.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 send_command_http("http://odroid64:12000/main.cgi?s=35&u=14&t="+(1 - unit14an));
@@ -194,44 +194,58 @@ public class lights extends Activity
             }
         });
 
-        mylight8 = (Button) findViewById(R.id.mylight8); //tv
+        /*
+        mylight8 = (Button) findViewById(R.id.mylight8);
         mylight8.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 send_command_http("http://odroid64:12000/main.cgi?s=17&u=8&t="+(1 - unit8an));
             }
         });
+        */
 
         mylight8d = (Button) findViewById(R.id.mylight8d);
         mylight8d.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 send_command_http("http://odroid64:12000/main.cgi?s=35&u=15&t=1");
+                mylight8d.setTextColor(android.graphics.Color.BLACK);
+                mylight8d.setBackgroundColor(android.graphics.Color.GRAY);
                 send_command_http("http://odroid64:12000/main.cgi?s=35&u=15&t=1");
                 Handler handler1 = new Handler();
                 handler1.postDelayed(new Runnable() {
                      public void run() {
-                        send_command_http("http://odroid64:12000/main.cgi?s=17&u=8&t=0");
-                        send_command_http("http://odroid64:12000/main.cgi?s=17&u=8&t=0");
+                        send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=0");
+                        blau1an=0;
+                        blau2an=0;
+                        rot1an=0;
+                        rot2an=0;
+                        eth1an=0;
+                        eth2an=0;
+                        send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=0");
+                        wzwaran = 0;
                      }
                 }, 5000);
                 Handler handler2 = new Handler();
                 handler2.postDelayed(new Runnable() {
                      public void run() {
-                        send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=0");
-                        send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=0");
-                        wzwaran = 0;
+                        send_command_http("http://odroid64:12000/main.cgi?s=17&u=4&t=0");
+                        send_command_http("http://odroid64:12000/main.cgi?s=17&u=4&t=0");
                      }
                 }, 7000);
                 Handler handler3 = new Handler();
                 handler3.postDelayed(new Runnable() {
                      public void run() {
                         send_command_http("http://odroid64:12000/main.cgi?s=35&u=15&t=0");
+                        send_command_http("http://odroid64:12000/main.cgi?s=35&u=14&t=0");
+                        mylight8d.setTextColor(android.graphics.Color.GRAY);
+                        mylight8d.setBackgroundColor(android.graphics.Color.DKGRAY);
                         send_command_http("http://odroid64:12000/main.cgi?s=35&u=15&t=0");
+                        send_command_http("http://odroid64:12000/main.cgi?s=35&u=14&t=0");
                      }
                 }, 15000);
             }
         });
 
-        mylight4 = (Button) findViewById(R.id.mylight4); //epl
+        mylight4 = (Button) findViewById(R.id.mylight4); //green
         mylight4.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 send_command_http("http://odroid64:12000/main.cgi?s=17&u=4&t="+(1 - unit4an));
@@ -256,6 +270,7 @@ public class lights extends Activity
             }
         });
 
+        /*
         udp = (Button) findViewById(R.id.udp);
         udp.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -264,6 +279,7 @@ public class lights extends Activity
                 startActivityForResult(myIntent, 0);
             }
         });
+        */
 
         jarbotv = (Button) findViewById(R.id.jarbot);
         jarbotv.setOnClickListener(new OnClickListener() {
@@ -414,6 +430,7 @@ public class lights extends Activity
                 mylight15.setTextColor(android.graphics.Color.GRAY);
                 mylight15.setBackgroundColor(android.graphics.Color.DKGRAY);
             }
+            /*
             if (unit8an>0)
             {
                 mylight8.setTextColor(android.graphics.Color.BLACK);
@@ -428,19 +445,48 @@ public class lights extends Activity
                 mylight8d.setTextColor(android.graphics.Color.GRAY);
                 mylight8d.setBackgroundColor(android.graphics.Color.DKGRAY);
             }
+            */
             if (unit4an>0)
             {
+                mylight4.setTextColor(android.graphics.Color.BLACK);
+                mylight4.setBackgroundColor(android.graphics.Color.rgb(44,255,122));
+                /*
                 mylight4.setTextColor(android.graphics.Color.BLACK);
                 mylight4.setBackgroundColor(android.graphics.Color.GRAY);
                 udp.setTextColor(android.graphics.Color.BLACK);
                 udp.setBackgroundColor(android.graphics.Color.GRAY);
+                */
             }
             else
             {
+                mylight4.setTextColor(android.graphics.Color.rgb(44,255,122));
+                mylight4.setBackgroundColor(android.graphics.Color.BLACK);
+                /*
                 mylight4.setTextColor(android.graphics.Color.GRAY);
                 mylight4.setBackgroundColor(android.graphics.Color.DKGRAY);
                 udp.setTextColor(android.graphics.Color.GRAY);
                 udp.setBackgroundColor(android.graphics.Color.DKGRAY);
+                */
+            }
+            if (eth1an>0)
+            {
+                eth1.setTextColor(android.graphics.Color.BLACK);
+                eth1.setBackgroundColor(android.graphics.Color.GRAY);
+            }
+            else
+            {
+                eth1.setTextColor(android.graphics.Color.GRAY);
+                eth1.setBackgroundColor(android.graphics.Color.DKGRAY);
+            }
+            if (eth2an>0)
+            {
+                eth2.setTextColor(android.graphics.Color.BLACK);
+                eth2.setBackgroundColor(android.graphics.Color.rgb(241,67,20));
+            }
+            else
+            {
+                eth2.setTextColor(android.graphics.Color.rgb(241,67,20));
+                eth2.setBackgroundColor(android.graphics.Color.BLACK);
             }
             if (wzwaran > 0 && blau1an == 0 && blau2an == 0 && rot1an == 0 && rot2an == 0 && eth1an == 0 && eth2an == 0)
             {
@@ -577,12 +623,12 @@ public class lights extends Activity
             if (eth1an>0)
             {
                 eth1.setTextColor(android.graphics.Color.BLACK);
-                eth1.setBackgroundColor(android.graphics.Color.rgb(44,255,122));
+                eth1.setBackgroundColor(android.graphics.Color.GRAY);
             }
             else
             {
-                eth1.setTextColor(android.graphics.Color.rgb(44,255,122));
-                eth1.setBackgroundColor(android.graphics.Color.BLACK);
+                eth1.setTextColor(android.graphics.Color.GRAY);
+                eth1.setBackgroundColor(android.graphics.Color.DKGRAY);
             }
             if (eth2an>0)
             {
@@ -683,6 +729,7 @@ public class lights extends Activity
                 volt.setText(errstr);
             errocc = 0;
 
+            /*
             if (zsun1available>0)
             {
                 zsun1.setTextColor(android.graphics.Color.BLACK);
@@ -697,6 +744,7 @@ public class lights extends Activity
                 zsun1d.setTextColor(android.graphics.Color.GRAY);
                 zsun1d.setBackgroundColor(android.graphics.Color.DKGRAY);
             }
+            */
         }
     }
 }
