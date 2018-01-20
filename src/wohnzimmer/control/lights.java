@@ -58,6 +58,7 @@ public class lights extends Activity
     private Button mylight4;
     private Button zsun1;
     private Button zsun1d;
+    private Button jarbotv;
 
     private TextView volt;
     private String voltstr;
@@ -259,6 +260,15 @@ public class lights extends Activity
         udp.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 Intent myIntent = new Intent(v.getContext(), epl.class);
+                myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        jarbotv = (Button) findViewById(R.id.jarbot);
+        jarbotv.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                Intent myIntent = new Intent(v.getContext(), jarbot.class);
                 myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivityForResult(myIntent, 0);
             }
