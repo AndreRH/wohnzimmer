@@ -37,10 +37,9 @@ public class lights extends Activity
     private int unit8an;
     private int unit4an;
     private int unit2an;
+    private int zsun1an;
 
     private int wzwaran;
-
-    private int zsun1available;
 
     private int blocktcp;
 
@@ -148,14 +147,14 @@ public class lights extends Activity
         eth1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 if (unit2an > 0)
-                    send_command_tcp(1, eth1an, 0);
+                    send_command_tcp("greenhead", 1, eth1an, 0);
                 else
                 {
                     Handler handler = new Handler();
                     send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=1");
                     handler.postDelayed(new Runnable() {
                          public void run() {
-                            send_command_tcp(1, eth1an, 0);
+                            send_command_tcp("greenhead", 1, eth1an, 0);
                          }
                     }, 5555);
                 }
@@ -166,14 +165,14 @@ public class lights extends Activity
         eth2.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 if (unit2an > 0)
-                    send_command_tcp(2, eth2an, 0);
+                    send_command_tcp("greenhead", 2, eth2an, 0);
                 else
                 {
                     Handler handler = new Handler();
                     send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=1");
                     handler.postDelayed(new Runnable() {
                          public void run() {
-                            send_command_tcp(2, eth2an, 0);
+                            send_command_tcp("greenhead", 2, eth2an, 0);
                          }
                     }, 5555);
                 }
@@ -252,23 +251,19 @@ public class lights extends Activity
             }
         });
 
-        zsun1 = (Button) findViewById(R.id.zsun1);
-        zsun1.setOnTouchListener(new OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                switch ( event.getAction() ) {
-                case MotionEvent.ACTION_DOWN: send_command_udp(1, 1); break;
-                case MotionEvent.ACTION_UP:   send_command_udp(1, 0); break;
-                }
-                return true;
+        zsun1 = (Button) findViewById(R.id.zsun1); //decke
+        zsun1.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                send_command_tcp("zsun1", 1, zsun1an, 0);
             }
         });
 
-        zsun1d = (Button) findViewById(R.id.zsun1d);
+        /*zsun1d = (Button) findViewById(R.id.zsun1d);
         zsun1d.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 send_command_udp(1, 2);
             }
-        });
+        });*/
 
         /*
         udp = (Button) findViewById(R.id.udp);
@@ -297,10 +292,10 @@ public class lights extends Activity
     public void onResume()
     {
         super.onResume();
+        send_command_tcp("zsun1", 0,0,1);
         send_command_http("http://redblue/main.cgi");
         send_command_http("http://odroid64:12000/main.cgi");
-        send_command_tcp(0,0,1);
-        send_command_udp(1, 3);
+        send_command_tcp("greenhead", 0,0,1);
     }
 
     private void send_command_http(String cmd)
@@ -309,19 +304,13 @@ public class lights extends Activity
         sndtsk.execute(cmd);
     }
 
-    private void send_command_tcp(int nr, int an, int update)
+    private void send_command_tcp(String adr, int nr, int an, int update)
     {
         if (blocktcp > 0) return; else blocktcp = 1;
         int cmd = 100 + nr + (an * 10);
         TCPTask tcptsk = new TCPTask();
         if (update > 0) cmd = 91;
-        tcptsk.execute(cmd, 0);
-    }
-
-    private void send_command_udp(int nr, int cmd)
-    {
-        UdpTask udptsk = new UdpTask(this);
-        udptsk.execute(nr, cmd);
+        tcptsk.execute(adr, Integer.toString(cmd));
     }
 
     private class SendTask extends AsyncTask<String, Void, Void> {
@@ -572,15 +561,16 @@ public class lights extends Activity
         }
     }
 
-    private class TCPTask extends AsyncTask<Integer, Void, Void> {
+    private class TCPTask extends AsyncTask<String, Void, Void> {
 
         private Exception exception;
 
-        protected Void doInBackground(Integer... ints) {
-            int cmd = ints[0];
+        protected Void doInBackground(String... urlandcmd) {
+            String adr = urlandcmd[0];
+            int cmd = Integer.parseInt(urlandcmd[1]);
             try {
                 Socket s = new Socket();
-                s.connect(new InetSocketAddress("greenhead", 17494), 50);
+                s.connect(new InetSocketAddress(adr, 17494), 500);
                 OutputStream tcpout = s.getOutputStream();
                 InputStream  tcpinp = s.getInputStream();
                 if (cmd != 91)
@@ -592,15 +582,23 @@ public class lights extends Activity
                 tcpout.write(91);
                 Thread.sleep(10);
                 int ret = tcpinp.read();
-                if ((ret & 1) > 0) eth1an = 1; else eth1an = 0;
-                if ((ret & 2) > 0) eth2an = 1; else eth2an = 0;
 
-                tcpout.write(93);
-                Thread.sleep(10);
-                ret = tcpinp.read();
-                double dret = ret;
-                dret /= 10.0;
-                voltstr = "Spannung: " + dret + " V";
+                if (adr.equals("zsun1"))
+                {
+                    if ((ret & 1) > 0) zsun1an = 1; else zsun1an = 0;
+                    voltstr = "";
+                }
+                else
+                {
+                    if ((ret & 1) > 0) eth1an = 1; else eth1an = 0;
+                    if ((ret & 2) > 0) eth2an = 1; else eth2an = 0;
+                    tcpout.write(93);
+                    Thread.sleep(10);
+                    ret = tcpinp.read();
+                    double dret = ret;
+                    dret /= 10.0;
+                    voltstr = "Spannung: " + dret + " V";
+                }
 
                 Thread.sleep(10);
                 s.close();
@@ -620,6 +618,16 @@ public class lights extends Activity
 
         protected void onPostExecute(Void v) {
             blocktcp = 0;
+            if (zsun1an>0)
+            {
+                zsun1.setTextColor(android.graphics.Color.BLACK);
+                zsun1.setBackgroundColor(android.graphics.Color.GRAY);
+            }
+            else
+            {
+                zsun1.setTextColor(android.graphics.Color.GRAY);
+                zsun1.setBackgroundColor(android.graphics.Color.DKGRAY);
+            }
             if (eth1an>0)
             {
                 eth1.setTextColor(android.graphics.Color.BLACK);
@@ -655,96 +663,6 @@ public class lights extends Activity
             else
                 volt.setText(voltstr);
             errocc = 0;
-        }
-    }
-
-    private class UdpTask extends AsyncTask<Integer, Void, Void> {
-
-        private Exception exception;
-
-        private Context context;
-
-        public UdpTask(Context context) {
-            this.context = context;
-        }
-
-        protected Void doInBackground(Integer... ints) {
-            DatagramSocket s = null;
-            int zsun = ints[0];
-            int cmd  = ints[1];
-
-            zsun1available = 0;
-            if (zsun != 1) return null;
-
-            try {
-                InetAddress local;
-                int server_port = 32201;
-
-                s = new DatagramSocket();
-                try {
-                    local = InetAddress.getByName("zsun1");
-                } catch (java.net.UnknownHostException e) {
-                    s.close();
-                    return null;
-                }
-                s.setSoTimeout(42);
-
-                byte[] bytes = new byte[1];
-                if (cmd == 1)
-                    bytes[0] = 1;
-                else if (cmd == 2)
-                    bytes[0] = 2;
-                else if (cmd == 3)
-                    bytes[0] = 3;
-                else
-                    bytes[0] = 0;
-
-                DatagramPacket p = new DatagramPacket(bytes, bytes.length, local, server_port);
-                s.send(p);
-
-                DatagramPacket r = new DatagramPacket(bytes, bytes.length);
-                Thread.sleep(10);
-                s.receive(r);
-                zsun1available = 1;
-
-                s.close();
-                return null;
-            } catch (InterruptedIOException e) {
-                if (s != null)
-                {
-                    zsun1available = 0;
-                    s.close();
-                    s = null;
-                }
-                return null;
-            } catch (Exception e) {
-                errocc = 1;
-                errstr = "IOException: " + e.getMessage();
-                return null;
-            }
-        }
-
-        protected void onPostExecute(Void v) {
-            if (errocc>0)
-                volt.setText(errstr);
-            errocc = 0;
-
-            /*
-            if (zsun1available>0)
-            {
-                zsun1.setTextColor(android.graphics.Color.BLACK);
-                zsun1.setBackgroundColor(android.graphics.Color.GRAY);
-                zsun1d.setTextColor(android.graphics.Color.BLACK);
-                zsun1d.setBackgroundColor(android.graphics.Color.GRAY);
-            }
-            else
-            {
-                zsun1.setTextColor(android.graphics.Color.GRAY);
-                zsun1.setBackgroundColor(android.graphics.Color.DKGRAY);
-                zsun1d.setTextColor(android.graphics.Color.GRAY);
-                zsun1d.setBackgroundColor(android.graphics.Color.DKGRAY);
-            }
-            */
         }
     }
 }
