@@ -212,6 +212,7 @@ public class lights extends Activity
                 Handler handler1 = new Handler();
                 handler1.postDelayed(new Runnable() {
                      public void run() {
+                        send_command_tcp("zsun1", 1, 1, 0);
                         send_command_http("http://odroid64:12000/main.cgi?s=17&u=2&t=0");
                         blau1an=0;
                         blau2an=0;
@@ -226,6 +227,7 @@ public class lights extends Activity
                 Handler handler2 = new Handler();
                 handler2.postDelayed(new Runnable() {
                      public void run() {
+                        send_command_tcp("zsun1", 1, 1, 0);
                         send_command_http("http://odroid64:12000/main.cgi?s=17&u=4&t=0");
                         send_command_http("http://odroid64:12000/main.cgi?s=17&u=4&t=0");
                      }
@@ -233,6 +235,7 @@ public class lights extends Activity
                 Handler handler3 = new Handler();
                 handler3.postDelayed(new Runnable() {
                      public void run() {
+                        send_command_tcp("zsun1", 1, 1, 0);
                         send_command_http("http://odroid64:12000/main.cgi?s=35&u=15&t=0");
                         send_command_http("http://odroid64:12000/main.cgi?s=35&u=14&t=0");
                         mylight8d.setTextColor(android.graphics.Color.GRAY);
@@ -294,6 +297,7 @@ public class lights extends Activity
         super.onResume();
         send_command_tcp("zsun1", 0,0,1);
         send_command_http("http://redblue/main.cgi");
+        send_command_tcp("zsun1", 0,0,1);
         send_command_http("http://odroid64:12000/main.cgi");
         send_command_tcp("greenhead", 0,0,1);
     }

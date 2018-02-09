@@ -157,13 +157,6 @@
                 android:background="#000000"
                 android:textColor="#888888"
                 android:text="JarBot"/>
-            <Button android:id="@+id/zsun1d"
-                android:layout_marginBottom="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:background="#000000"
-                android:textColor="#888888"
-                android:text="Decke 10s"/>
         </TableRow>
     </TableLayout>
 
