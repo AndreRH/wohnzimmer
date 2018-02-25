@@ -24,6 +24,8 @@ import java.net.Socket;
 import java.net.URL;
 import java.net.HttpURLConnection;
 
+import android.util.Log;
+
 public class lights extends Activity
 {
     private int blau1an;
@@ -64,6 +66,8 @@ public class lights extends Activity
 
     private int errocc;
     private String errstr;
+    private UDPListener listener;
+    private Thread listenerthread;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -289,6 +293,10 @@ public class lights extends Activity
         });
 
         volt = (TextView) findViewById(R.id.volt);
+
+        listener = new UDPListener();
+        listenerthread = new Thread(listener);
+        listenerthread.start();
     }
 
     @Override
@@ -296,6 +304,14 @@ public class lights extends Activity
     {
         super.onResume();
         send_command_http("http://odroid64:12000/main.cgi");
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        listenerthread.interrupt();
+        listenerthread = null;
     }
 
     private void send_command_http(String cmd)
@@ -558,6 +574,47 @@ public class lights extends Activity
             } catch (IOException e) {
                 errocc = 1;
                 errstr = "readStream failed: " + e.getMessage();
+            }
+        }
+    }
+
+    private class UDPListener implements Runnable
+    {
+        DatagramSocket socket;
+
+        private void listenAndWaitAndThrowIntent(InetAddress broadcastIP, Integer port) throws Exception {
+            byte[] recvBuf = new byte[16];
+            if (socket == null || socket.isClosed()) {
+                socket = new DatagramSocket(port, broadcastIP);
+                socket.setBroadcast(true);
+            }
+            //socket.setSoTimeout(1000);
+            DatagramPacket packet = new DatagramPacket(recvBuf, recvBuf.length);
+            Log.e("UDP", "Waiting for UDP broadcast");
+            socket.receive(packet);
+
+            String senderIP = packet.getAddress().getHostAddress();
+            String message = new String(packet.getData()).trim();
+
+            Log.e("UDP", "Got UDB broadcast from " + senderIP + ", message: " + message);
+
+            socket.close();
+        }
+
+        @Override
+        public void run()
+        {
+            try
+            {
+                InetAddress broadcastIP = InetAddress.getByName("192.168.178.255");
+                Integer port = 11111;
+                while (true) {
+                    listenAndWaitAndThrowIntent(broadcastIP, port);
+                    send_command_http("http://odroid64:12000/main.cgi");
+                }
+                //if (!shouldListenForUDPBroadcast) throw new ThreadDeath();
+            } catch (Exception e) {
+                Log.i("UDP", "no longer listening for UDP broadcasts cause of error " + e.getMessage());
             }
         }
     }
