@@ -28,22 +28,27 @@ import android.util.Log;
 
 public class lights extends Activity
 {
-    private int blau1an;
-    private int blau2an;
-    private int rot1an;
-    private int rot2an;
-    private int eth1an;
-    private int eth2an;
+    private int blue1on;
+    private int blue2on;
+    private int red1on;
+    private int red2on;
+    private int eth1on;
+    private int eth2on;
+
+    private int blue1pending;
+    private int blue2pending;
+    private int red1pending;
+    private int red2pending;
+    private int eth1pending;
+    private int eth2pending;
+
     private int unit14an;
     private int unit15an;
     private int unit8an;
     private int unit4an;
     private int unit2an;
+    private int wzmainpending;
     private int zsun1an;
-
-    private int wzwaran;
-
-    private int blocktcp;
 
     private Button blue1;
     private Button blue2;
@@ -77,109 +82,55 @@ public class lights extends Activity
 
         blue1 = (Button) findViewById(R.id.blue1);
         blue1.setOnClickListener(new OnClickListener() {
-            public void onClick(View v)  {
-                if (unit2an > 0)
-                    send_command_http("http://odroid64:12000/main.cgi?n=blueright&t="+(1-blau1an));
-                else
-                {
-                    Handler handler = new Handler();
-                    send_command_http("http://odroid64:12000/main.cgi?n=wzmain&t=1");
-                    handler.postDelayed(new Runnable() {
-                         public void run() {
-                            send_command_http("http://odroid64:12000/main.cgi?n=blueright&t="+(1-blau1an));
-                         }
-                    }, 9000);
-                }
+            public void onClick(View v)
+            {
+                blue1pending = (unit2an == 0) ? 1 : 0;
+                send_command_http("http://odroid64:12000/main.cgi?n=blueright&t="+(1-blue1on));
             }
         });
 
         blue2 = (Button) findViewById(R.id.blue2);
         blue2.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                if (unit2an > 0)
-                    send_command_http("http://odroid64:12000/main.cgi?n=blueleft&t="+(1-blau2an));
-                else
-                {
-                    Handler handler = new Handler();
-                    send_command_http("http://odroid64:12000/main.cgi?n=wzmain&t=1");
-                    handler.postDelayed(new Runnable() {
-                         public void run() {
-                            send_command_http("http://odroid64:12000/main.cgi?n=blueleft&t="+(1-blau2an));
-                         }
-                    }, 9000);
-                }
+            public void onClick(View v)
+            {
+                blue2pending = (unit2an == 0) ? 1 : 0;
+                send_command_http("http://odroid64:12000/main.cgi?n=blueleft&t="+(1-blue2on));
             }
         });
 
         red1 = (Button) findViewById(R.id.red1);
         red1.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                if (unit2an > 0)
-                    send_command_http("http://odroid64:12000/main.cgi?n=redleft&t="+(1-rot1an));
-                else
-                {
-                    Handler handler = new Handler();
-                    send_command_http("http://odroid64:12000/main.cgi?n=wzmain&t=1");
-                    handler.postDelayed(new Runnable() {
-                         public void run() {
-                            send_command_http("http://odroid64:12000/main.cgi?n=redleft&t="+(1-rot1an));
-                         }
-                    }, 9000);
-                }
+            public void onClick(View v)
+            {
+                red1pending = (unit2an == 0) ? 1 : 0;
+                send_command_http("http://odroid64:12000/main.cgi?n=redleft&t="+(1-red1on));
             }
         });
 
         red2 = (Button) findViewById(R.id.red2);
         red2.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                if (unit2an > 0)
-                    send_command_http("http://odroid64:12000/main.cgi?n=redright&t="+(1-rot2an));
-                else
-                {
-                    Handler handler = new Handler();
-                    send_command_http("http://odroid64:12000/main.cgi?n=wzmain&t=1");
-                    handler.postDelayed(new Runnable() {
-                         public void run() {
-                            send_command_http("http://odroid64:12000/main.cgi?n=redright&t="+(1-rot1an));
-                         }
-                    }, 9000);
-                }
+            public void onClick(View v)
+            {
+                red2pending = (unit2an == 0) ? 1 : 0;
+                send_command_http("http://odroid64:12000/main.cgi?n=redright&t="+(1-red2on));
             }
         });
 
         eth1 = (Button) findViewById(R.id.eth1); //tv
         eth1.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                if (unit2an > 0)
-                    send_command_http("http://odroid64:12000/main.cgi?n=tv&t="+(1-eth1an));
-                else
-                {
-                    Handler handler = new Handler();
-                    send_command_http("http://odroid64:12000/main.cgi?n=wzmain&t=1");
-                    handler.postDelayed(new Runnable() {
-                         public void run() {
-                            send_command_http("http://odroid64:12000/main.cgi?n=tv&t="+(1-eth1an));
-                         }
-                    }, 5555);
-                }
+            public void onClick(View v)
+            {
+                eth1pending = (unit2an == 0) ? 1 : 0;
+                send_command_http("http://odroid64:12000/main.cgi?n=tv&t="+(1-eth1on));
             }
         });
 
         eth2 = (Button) findViewById(R.id.eth2); //pharao
         eth2.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                if (unit2an > 0)
-                    send_command_http("http://odroid64:12000/main.cgi?n=pharao&t="+(1-eth2an));
-                else
-                {
-                    Handler handler = new Handler();
-                    send_command_http("http://odroid64:12000/main.cgi?n=wzmain&t=1");
-                    handler.postDelayed(new Runnable() {
-                         public void run() {
-                            send_command_http("http://odroid64:12000/main.cgi?n=pharao&t="+(1-eth1an));
-                         }
-                    }, 5555);
-                }
+            public void onClick(View v)
+            {
+                eth2pending = (unit2an == 0) ? 1 : 0;
+                send_command_http("http://odroid64:12000/main.cgi?n=pharao&t="+(1-eth2on));
             }
         });
 
@@ -218,14 +169,13 @@ public class lights extends Activity
                      public void run() {
                         send_command_http("http://odroid64:12000/main.cgi?n=mainlight&t=0");
                         send_command_http("http://odroid64:12000/main.cgi?n=wzmain&t=0");
-                        blau1an=0;
-                        blau2an=0;
-                        rot1an=0;
-                        rot2an=0;
-                        eth1an=0;
-                        eth2an=0;
+                        blue1on=0;
+                        blue2on=0;
+                        red1on=0;
+                        red2on=0;
+                        eth1on=0;
+                        eth2on=0;
                         send_command_http("http://odroid64:12000/main.cgi?n=wzmain&t=0");
-                        wzwaran = 0;
                      }
                 }, 5000);
                 Handler handler2 = new Handler();
@@ -366,27 +316,39 @@ public class lights extends Activity
                 this.exception = null;
             }
 
-            if (blau1an>0)
+            if (blue1on>0)
             {
                 blue1.setTextColor(android.graphics.Color.BLACK);
                 blue1.setBackgroundColor(android.graphics.Color.rgb(60,111,240));
+                blue1pending = 0;
+            }
+            else if (blue1pending>0)
+            {
+                blue1.setTextColor(android.graphics.Color.BLACK);
+                blue1.setBackgroundColor(android.graphics.Color.rgb(30,56,120));
             }
             else
             {
                 blue1.setTextColor(android.graphics.Color.rgb(60,111,240));
                 blue1.setBackgroundColor(android.graphics.Color.BLACK);
             }
-            if (blau2an>0)
+            if (blue2on>0)
             {
                 blue2.setTextColor(android.graphics.Color.BLACK);
                 blue2.setBackgroundColor(android.graphics.Color.rgb(60,111,240));
+                blue2pending = 0;
+            }
+            else if (blue2pending>0)
+            {
+                blue2.setTextColor(android.graphics.Color.BLACK);
+                blue2.setBackgroundColor(android.graphics.Color.rgb(30,56,120));
             }
             else
             {
                 blue2.setTextColor(android.graphics.Color.rgb(60,111,240));
                 blue2.setBackgroundColor(android.graphics.Color.BLACK);
             }
-            if (rot1an>0)
+            if (red1on>0)
             {
                 red1.setTextColor(android.graphics.Color.BLACK);
                 red1.setBackgroundColor(android.graphics.Color.rgb(255,50,50));
@@ -396,7 +358,7 @@ public class lights extends Activity
                 red1.setTextColor(android.graphics.Color.rgb(255,50,50));
                 red1.setBackgroundColor(android.graphics.Color.BLACK);
             }
-            if (rot2an>0)
+            if (red2on>0)
             {
                 red2.setTextColor(android.graphics.Color.BLACK);
                 red2.setBackgroundColor(android.graphics.Color.rgb(255,50,50));
@@ -474,7 +436,7 @@ public class lights extends Activity
                 zsun1.setTextColor(android.graphics.Color.GRAY);
                 zsun1.setBackgroundColor(android.graphics.Color.DKGRAY);
             }
-            if (eth1an>0)
+            if (eth1on>0)
             {
                 eth1.setTextColor(android.graphics.Color.BLACK);
                 eth1.setBackgroundColor(android.graphics.Color.GRAY);
@@ -484,7 +446,7 @@ public class lights extends Activity
                 eth1.setTextColor(android.graphics.Color.GRAY);
                 eth1.setBackgroundColor(android.graphics.Color.DKGRAY);
             }
-            if (eth2an>0)
+            if (eth2on>0)
             {
                 eth2.setTextColor(android.graphics.Color.BLACK);
                 eth2.setBackgroundColor(android.graphics.Color.rgb(241,67,20));
@@ -493,16 +455,6 @@ public class lights extends Activity
             {
                 eth2.setTextColor(android.graphics.Color.rgb(241,67,20));
                 eth2.setBackgroundColor(android.graphics.Color.BLACK);
-            }
-            if (wzwaran > 0 && blau1an == 0 && blau2an == 0 && rot1an == 0 && rot2an == 0 && eth1an == 0 && eth2an == 0)
-            {
-                send_command_http("http://odroid64:12000/main.cgi?n=wzmain&t=0");
-                wzwaran = 0;
-            }
-            else if (blau1an > 0 || blau2an > 0 || rot1an > 0 || rot2an > 0 || eth1an > 0 || eth2an > 0)
-            {
-                wzwaran = 1;
-                unit2an = 1;
             }
             if (errocc>0)
                 volt.setText(errstr);
@@ -517,22 +469,22 @@ public class lights extends Activity
                 while ((line = r.readLine()) != null) {
                     if (line.contains("blueright")==true && line.contains("=")==true)
                     {
-                        blau1an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        blue1on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
                     if (line.contains("blueleft")==true && line.contains("=")==true)
                     {
-                        blau2an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        blue2on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
                     if (line.contains("redright")==true && line.contains("=")==true)
                     {
-                        rot2an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        red2on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
                     if (line.contains("redleft")==true && line.contains("=")==true)
                     {
-                        rot1an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        red1on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
                     if (line.contains("green")==true && line.contains("=")==true)
@@ -542,12 +494,12 @@ public class lights extends Activity
                     }
                     if (line.contains("tv")==true && line.contains("=")==true)
                     {
-                        eth1an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        eth1on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
                     if (line.contains("pharao")==true && line.contains("=")==true)
                     {
-                        eth2an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        eth2on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
                     if (line.contains("mirror")==true && line.contains("=")==true)
@@ -558,6 +510,11 @@ public class lights extends Activity
                     if (line.contains("wzmain")==true && line.contains("=")==true)
                     {
                         unit2an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        line = r.readLine();
+                    }
+                    if (line.contains("wzmainpending")==true && line.contains("=")==true)
+                    {
+                        wzmainpending = Character.getNumericValue(line.charAt(line.indexOf("=") + 1));
                         line = r.readLine();
                     }
                     if (line.contains("mainlight")==true && line.contains("=")==true)
@@ -583,7 +540,7 @@ public class lights extends Activity
         DatagramSocket socket;
 
         private void listenAndWaitAndThrowIntent(InetAddress broadcastIP, Integer port) throws Exception {
-            byte[] recvBuf = new byte[16];
+            byte[] recvBuf = new byte[4];
             if (socket == null || socket.isClosed()) {
                 socket = new DatagramSocket(port, broadcastIP);
                 socket.setBroadcast(true);
@@ -594,9 +551,8 @@ public class lights extends Activity
             socket.receive(packet);
 
             String senderIP = packet.getAddress().getHostAddress();
-            String message = new String(packet.getData()).trim();
 
-            Log.e("UDP", "Got UDB broadcast from " + senderIP + ", message: " + message);
+            Log.e("UDP", "Got UDB broadcast from " + senderIP);
 
             socket.close();
         }
