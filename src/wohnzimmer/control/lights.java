@@ -85,7 +85,7 @@ public class lights extends Activity
             public void onClick(View v)
             {
                 blue1pending = (unit2an == 0) ? 1 : 0;
-                send_command_http("http://odroid64:12000/main.cgi?n=blueright&t="+(1-blue1on));
+                send_command_http("http://rk3399:12000/main.cgi?n=blueright&t="+(1-blue1on));
             }
         });
 
@@ -94,7 +94,7 @@ public class lights extends Activity
             public void onClick(View v)
             {
                 blue2pending = (unit2an == 0) ? 1 : 0;
-                send_command_http("http://odroid64:12000/main.cgi?n=blueleft&t="+(1-blue2on));
+                send_command_http("http://rk3399:12000/main.cgi?n=blueleft&t="+(1-blue2on));
             }
         });
 
@@ -103,7 +103,7 @@ public class lights extends Activity
             public void onClick(View v)
             {
                 red1pending = (unit2an == 0) ? 1 : 0;
-                send_command_http("http://odroid64:12000/main.cgi?n=redleft&t="+(1-red1on));
+                send_command_http("http://rk3399:12000/main.cgi?n=redleft&t="+(1-red1on));
             }
         });
 
@@ -112,7 +112,7 @@ public class lights extends Activity
             public void onClick(View v)
             {
                 red2pending = (unit2an == 0) ? 1 : 0;
-                send_command_http("http://odroid64:12000/main.cgi?n=redright&t="+(1-red2on));
+                send_command_http("http://rk3399:12000/main.cgi?n=redright&t="+(1-red2on));
             }
         });
 
@@ -121,7 +121,7 @@ public class lights extends Activity
             public void onClick(View v)
             {
                 eth1pending = (unit2an == 0) ? 1 : 0;
-                send_command_http("http://odroid64:12000/main.cgi?n=tv&t="+(1-eth1on));
+                send_command_http("http://rk3399:12000/main.cgi?n=tv&t="+(1-eth1on));
             }
         });
 
@@ -130,21 +130,21 @@ public class lights extends Activity
             public void onClick(View v)
             {
                 eth2pending = (unit2an == 0) ? 1 : 0;
-                send_command_http("http://odroid64:12000/main.cgi?n=pharao&t="+(1-eth2on));
+                send_command_http("http://rk3399:12000/main.cgi?n=pharao&t="+(1-eth2on));
             }
         });
 
         mylight14 = (Button) findViewById(R.id.mylight14); //mirror
         mylight14.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://odroid64:12000/main.cgi?n=mirror&t="+(1 - unit14an));
+                send_command_http("http://rk3399:12000/main.cgi?n=mirror&t="+(1 - unit14an));
             }
         });
 
         mylight15 = (Button) findViewById(R.id.mylight15); //bed
         mylight15.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://odroid64:12000/main.cgi?n=bed&t="+(1 - unit15an));
+                send_command_http("http://rk3399:12000/main.cgi?n=bed&t="+(1 - unit15an));
             }
         });
 
@@ -152,7 +152,7 @@ public class lights extends Activity
         mylight8 = (Button) findViewById(R.id.mylight8);
         mylight8.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://odroid64:12000/main.cgi?s=17&u=8&t="+(1 - unit8an));
+                send_command_http("http://rk3399:12000/main.cgi?s=17&u=8&t="+(1 - unit8an));
             }
         });
         */
@@ -160,42 +160,42 @@ public class lights extends Activity
         mylight8d = (Button) findViewById(R.id.mylight8d);
         mylight8d.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://odroid64:12000/main.cgi?n=bed&t=1");
+                send_command_http("http://rk3399:12000/main.cgi?n=bed&t=1");
                 mylight8d.setTextColor(android.graphics.Color.BLACK);
                 mylight8d.setBackgroundColor(android.graphics.Color.GRAY);
-                send_command_http("http://odroid64:12000/main.cgi?n=bed&t=1");
+                send_command_http("http://rk3399:12000/main.cgi?n=bed&t=1");
                 Handler handler1 = new Handler();
                 handler1.postDelayed(new Runnable() {
                      public void run() {
-                        send_command_http("http://odroid64:12000/main.cgi?n=mainlight&t=0");
-                        send_command_http("http://odroid64:12000/main.cgi?n=wzmain&t=0");
+                        send_command_http("http://rk3399:12000/main.cgi?n=mainlight&t=0");
+                        send_command_http("http://rk3399:12000/main.cgi?n=wzmain&t=0");
                         blue1on=0;
                         blue2on=0;
                         red1on=0;
                         red2on=0;
                         eth1on=0;
                         eth2on=0;
-                        send_command_http("http://odroid64:12000/main.cgi?n=wzmain&t=0");
+                        send_command_http("http://rk3399:12000/main.cgi?n=wzmain&t=0");
                      }
                 }, 5000);
                 Handler handler2 = new Handler();
                 handler2.postDelayed(new Runnable() {
                      public void run() {
-                        send_command_http("http://odroid64:12000/main.cgi?n=mainlight&t=0");
-                        send_command_http("http://odroid64:12000/main.cgi?n=green&t=0");
-                        send_command_http("http://odroid64:12000/main.cgi?n=green&t=0");
+                        send_command_http("http://rk3399:12000/main.cgi?n=mainlight&t=0");
+                        send_command_http("http://rk3399:12000/main.cgi?n=green&t=0");
+                        send_command_http("http://rk3399:12000/main.cgi?n=green&t=0");
                      }
                 }, 7000);
                 Handler handler3 = new Handler();
                 handler3.postDelayed(new Runnable() {
                      public void run() {
-                        send_command_http("http://odroid64:12000/main.cgi?n=mainlight&t=0");
-                        send_command_http("http://odroid64:12000/main.cgi?n=bed&t=0");
-                        send_command_http("http://odroid64:12000/main.cgi?n=mirror&t=0");
+                        send_command_http("http://rk3399:12000/main.cgi?n=mainlight&t=0");
+                        send_command_http("http://rk3399:12000/main.cgi?n=bed&t=0");
+                        send_command_http("http://rk3399:12000/main.cgi?n=mirror&t=0");
                         mylight8d.setTextColor(android.graphics.Color.GRAY);
                         mylight8d.setBackgroundColor(android.graphics.Color.DKGRAY);
-                        send_command_http("http://odroid64:12000/main.cgi?n=bed&t=0");
-                        send_command_http("http://odroid64:12000/main.cgi?n=mirror&t=0");
+                        send_command_http("http://rk3399:12000/main.cgi?n=bed&t=0");
+                        send_command_http("http://rk3399:12000/main.cgi?n=mirror&t=0");
                      }
                 }, 15000);
             }
@@ -204,14 +204,14 @@ public class lights extends Activity
         mylight4 = (Button) findViewById(R.id.mylight4); //green
         mylight4.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://odroid64:12000/main.cgi?n=green&t="+(1 - unit4an));
+                send_command_http("http://rk3399:12000/main.cgi?n=green&t="+(1 - unit4an));
             }
         });
 
         zsun1 = (Button) findViewById(R.id.zsun1); //decke
         zsun1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://odroid64:12000/main.cgi?n=mainlight&t="+(1 - zsun1an));
+                send_command_http("http://rk3399:12000/main.cgi?n=mainlight&t="+(1 - zsun1an));
             }
         });
 
@@ -253,7 +253,7 @@ public class lights extends Activity
     public void onResume()
     {
         super.onResume();
-        send_command_http("http://odroid64:12000/main.cgi");
+        send_command_http("http://rk3399:12000/main.cgi");
     }
 
     @Override
@@ -588,7 +588,7 @@ public class lights extends Activity
                 Integer port = 11111;
                 while (true) {
                     listenAndWaitAndThrowIntent(broadcastIP, port);
-                    send_command_http("http://odroid64:12000/main.cgi");
+                    send_command_http("http://rk3399:12000/main.cgi");
                 }
                 //if (!shouldListenForUDPBroadcast) throw new ThreadDeath();
             } catch (Exception e) {
