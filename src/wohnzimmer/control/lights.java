@@ -352,6 +352,12 @@ public class lights extends Activity
             {
                 red1.setTextColor(android.graphics.Color.BLACK);
                 red1.setBackgroundColor(android.graphics.Color.rgb(255,50,50));
+                red1pending = 0;
+            }
+            else if (red1pending>0)
+            {
+                red1.setTextColor(android.graphics.Color.BLACK);
+                red1.setBackgroundColor(android.graphics.Color.rgb(128,25,25));
             }
             else
             {
@@ -362,6 +368,12 @@ public class lights extends Activity
             {
                 red2.setTextColor(android.graphics.Color.BLACK);
                 red2.setBackgroundColor(android.graphics.Color.rgb(255,50,50));
+                red2pending = 0;
+            }
+            else if (red2pending>0)
+            {
+                red2.setTextColor(android.graphics.Color.BLACK);
+                red2.setBackgroundColor(android.graphics.Color.rgb(128,25,25));
             }
             else
             {
@@ -441,6 +453,11 @@ public class lights extends Activity
                 eth1.setTextColor(android.graphics.Color.BLACK);
                 eth1.setBackgroundColor(android.graphics.Color.GRAY);
             }
+            else if (eth1pending>0)
+            {
+                eth1.setTextColor(android.graphics.Color.BLACK);
+                eth1.setBackgroundColor(android.graphics.Color.DKGRAY);
+            }
             else
             {
                 eth1.setTextColor(android.graphics.Color.GRAY);
@@ -450,6 +467,11 @@ public class lights extends Activity
             {
                 eth2.setTextColor(android.graphics.Color.BLACK);
                 eth2.setBackgroundColor(android.graphics.Color.rgb(241,67,20));
+            }
+            else if (eth2pending>0)
+            {
+                eth2.setTextColor(android.graphics.Color.BLACK);
+                eth2.setBackgroundColor(android.graphics.Color.rgb(120,33,10));
             }
             else
             {
