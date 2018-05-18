@@ -28,77 +28,69 @@
             <Button android:id="@+id/eth2"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:textColor="#f14314"
                 android:text="Pharao"/>
             <Button android:id="@+id/blue2"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:textColor="#3c6ff0"
-                android:text="Blau links"/>
+                android:text="Blau  L"/>
             <Button android:id="@+id/blue1"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:textColor="#3c6ff0"
-                android:text="Blau rechts"/>
+                android:text="Blau  R"/>
         </TableRow>
         <TableRow
             android:id="@+id/tableRow2"
             android:layout_marginBottom="16dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
-            <Button android:id="@+id/mylight4"
+            <Button android:id="@+id/eth1"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:textColor="#2cff7a"
-                android:text="Boden"/>
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
+                android:background="#000000"
+                android:textColor="#888888"
+                android:text="TV"/>
             <Button android:id="@+id/red1"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:textColor="#ff3232"
-                android:text="Rot links"/>
+                android:text="Rot  L"/>
             <Button android:id="@+id/red2"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:textColor="#ff3232"
-                android:text="Rot rechts"/>
+                android:text="Rot  R"/>
         </TableRow>
-    </TableLayout>
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tableLayout2"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="16dp"
-        android:gravity="center">
         <TableRow
             android:id="@+id/tableRow3"
             android:layout_marginBottom="16dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
-            <Button android:id="@+id/mylight15"
+            <Button android:id="@+id/mylight8d"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:background="#000000"
                 android:textColor="#888888"
-                android:text="Bett"/>
-            <Button android:id="@+id/eth1"
+                android:text="TV 10s"/>
+            <Button android:id="@+id/mylight4"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:background="#000000"
-                android:textColor="#888888"
-                android:text="TV"/>
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
+                android:textColor="#2cff7a"
+                android:text="Boden"/>
             <Button android:id="@+id/mylight14"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:background="#000000"
                 android:textColor="#888888"
                 android:text="Mirror"/>
@@ -108,29 +100,36 @@
             android:layout_marginBottom="16dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
-            <Button android:id="@+id/na1"
+            <Button android:id="@+id/jarbot"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:background="#000000"
                 android:textColor="#888888"
-                android:text="EPL"/>
-            <Button android:id="@+id/mylight8d"
+                android:text="JarBot"/>
+            <Button android:id="@+id/mylight15"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:background="#000000"
                 android:textColor="#888888"
-                android:text="TV 10s"/>
+                android:text="Bett"/>
             <Button android:id="@+id/zsun1"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:background="#000000"
                 android:textColor="#888888"
                 android:text="Decke"/>
         </TableRow>
     </TableLayout>
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="@string/xkcd"
+        />
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -143,20 +142,34 @@
             android:layout_marginBottom="16dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
-            <Button android:id="@+id/na2"
+            <Button android:id="@+id/xkcdprev"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:background="#000000"
                 android:textColor="#888888"
-                android:text="TXT"/>
-            <Button android:id="@+id/jarbot"
+                android:text="prv"/>
+            <Button android:id="@+id/xkcdrand"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:background="#000000"
                 android:textColor="#888888"
-                android:text="JarBot"/>
+                android:text="rnd"/>
+            <Button android:id="@+id/xkcdnext"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
+                android:background="#000000"
+                android:textColor="#888888"
+                android:text="nxt"/>
+            <Button android:id="@+id/xkcdlast"
+                android:layout_marginBottom="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
+                android:background="#000000"
+                android:textColor="#888888"
+                android:text="end"/>
         </TableRow>
     </TableLayout>
 
