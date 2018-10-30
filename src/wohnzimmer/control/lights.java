@@ -318,7 +318,7 @@ public class lights extends Activity
                 URL url= new URL(urls[0]);
                 try {
                     urlConnection = (HttpURLConnection) url.openConnection();
-                    urlConnection.setConnectTimeout(50);
+                    urlConnection.setConnectTimeout(2000);
                 } catch (IOException e) {
                     errocc = 1;
                     errstr = "openConnection failed: " + e.getMessage();
