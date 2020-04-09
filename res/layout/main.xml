@@ -74,13 +74,13 @@
             android:layout_marginBottom="16dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
-            <Button android:id="@+id/mylight8d"
+            <Button android:id="@+id/aux1"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:background="#000000"
                 android:textColor="#888888"
-                android:text="TV 10s"/>
+                android:text="AUX"/>
             <Button android:id="@+id/green1"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"

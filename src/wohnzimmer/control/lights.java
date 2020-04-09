@@ -34,12 +34,11 @@ public class lights extends Activity
     private int red2on;
     private int tv1on;
     private int pharaoon;
-
+    private int aux1on;
     private int mirror1on;
     private int bed1on;
     /*private int unit8an;*/
     private int green1on;
-    private int unit2an;
     private int mainlight1an;
 
     private Button blue1;
@@ -52,7 +51,7 @@ public class lights extends Activity
     private Button bed1;
     private Button mirror1;
     /*private Button mylight8;*/
-    private Button mylight8d;
+    private Button aux1;
     private Button green1;
     private Button mainlight1;
     private Button mainlight1d;
@@ -143,47 +142,10 @@ public class lights extends Activity
         });
         */
 
-        mylight8d = (Button) findViewById(R.id.mylight8d);
-        mylight8d.setOnClickListener(new OnClickListener() {
+        aux1 = (Button) findViewById(R.id.aux1); //aux1
+        aux1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://rk3399:12000/main.cgi?n=bed&t=1");
-                mylight8d.setTextColor(android.graphics.Color.BLACK);
-                mylight8d.setBackgroundColor(android.graphics.Color.GRAY);
-                send_command_http("http://rk3399:12000/main.cgi?n=bed&t=1");
-                Handler handler1 = new Handler();
-                handler1.postDelayed(new Runnable() {
-                     public void run() {
-                        send_command_http("http://rk3399:12000/main.cgi?n=mainlight&t=0");
-                        send_command_http("http://rk3399:12000/main.cgi?n=wzmain&t=0");
-                        blue1on=0;
-                        blue2on=0;
-                        red1on=0;
-                        red2on=0;
-                        tv1on=0;
-                        pharaoon=0;
-                        send_command_http("http://rk3399:12000/main.cgi?n=wzmain&t=0");
-                     }
-                }, 5000);
-                Handler handler2 = new Handler();
-                handler2.postDelayed(new Runnable() {
-                     public void run() {
-                        send_command_http("http://rk3399:12000/main.cgi?n=mainlight&t=0");
-                        send_command_http("http://rk3399:12000/main.cgi?n=green&t=0");
-                        send_command_http("http://rk3399:12000/main.cgi?n=green&t=0");
-                     }
-                }, 7000);
-                Handler handler3 = new Handler();
-                handler3.postDelayed(new Runnable() {
-                     public void run() {
-                        send_command_http("http://rk3399:12000/main.cgi?n=mainlight&t=0");
-                        send_command_http("http://rk3399:12000/main.cgi?n=bed&t=0");
-                        send_command_http("http://rk3399:12000/main.cgi?n=mirror&t=0");
-                        mylight8d.setTextColor(android.graphics.Color.GRAY);
-                        mylight8d.setBackgroundColor(android.graphics.Color.DKGRAY);
-                        send_command_http("http://rk3399:12000/main.cgi?n=bed&t=0");
-                        send_command_http("http://rk3399:12000/main.cgi?n=mirror&t=0");
-                     }
-                }, 15000);
+                send_command_http("http://rk3399:12000/main.cgi?n=aux&t="+(1 - aux1on));
             }
         });
 
@@ -400,6 +362,16 @@ public class lights extends Activity
                 udp.setBackgroundColor(android.graphics.Color.DKGRAY);
                 */
             }
+            if (aux1on>0)
+            {
+                aux1.setTextColor(android.graphics.Color.BLACK);
+                aux1.setBackgroundColor(android.graphics.Color.GRAY);
+            }
+            else
+            {
+                aux1.setTextColor(android.graphics.Color.GRAY);
+                aux1.setBackgroundColor(android.graphics.Color.DKGRAY);
+            }
             if (mainlight1an>0)
             {
                 mainlight1.setTextColor(android.graphics.Color.BLACK);
@@ -481,9 +453,9 @@ public class lights extends Activity
                         mirror1on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
-                    if (line.contains("wzmain")==true && line.contains("=")==true)
+                    if (line.contains("aux")==true && line.contains("=")==true)
                     {
-                        unit2an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        aux1on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
                     if (line.contains("mainlight")==true && line.contains("=")==true)
