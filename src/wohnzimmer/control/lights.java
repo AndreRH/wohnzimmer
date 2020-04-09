@@ -35,19 +35,11 @@ public class lights extends Activity
     private int eth1on;
     private int eth2on;
 
-    private int blue1pending;
-    private int blue2pending;
-    private int red1pending;
-    private int red2pending;
-    private int eth1pending;
-    private int eth2pending;
-
     private int unit14an;
     private int unit15an;
     private int unit8an;
     private int unit4an;
     private int unit2an;
-    private int wzmainpending;
     private int zsun1an;
 
     private Button blue1;
@@ -84,7 +76,6 @@ public class lights extends Activity
         blue1.setOnClickListener(new OnClickListener() {
             public void onClick(View v)
             {
-                blue1pending = (unit2an == 0) ? 1 : 0;
                 send_command_http("http://rk3399:12000/main.cgi?n=blueright&t="+(1-blue1on));
             }
         });
@@ -93,7 +84,6 @@ public class lights extends Activity
         blue2.setOnClickListener(new OnClickListener() {
             public void onClick(View v)
             {
-                blue2pending = (unit2an == 0) ? 1 : 0;
                 send_command_http("http://rk3399:12000/main.cgi?n=blueleft&t="+(1-blue2on));
             }
         });
@@ -102,7 +92,6 @@ public class lights extends Activity
         red1.setOnClickListener(new OnClickListener() {
             public void onClick(View v)
             {
-                red1pending = (unit2an == 0) ? 1 : 0;
                 send_command_http("http://rk3399:12000/main.cgi?n=redleft&t="+(1-red1on));
             }
         });
@@ -111,7 +100,6 @@ public class lights extends Activity
         red2.setOnClickListener(new OnClickListener() {
             public void onClick(View v)
             {
-                red2pending = (unit2an == 0) ? 1 : 0;
                 send_command_http("http://rk3399:12000/main.cgi?n=redright&t="+(1-red2on));
             }
         });
@@ -120,7 +108,6 @@ public class lights extends Activity
         eth1.setOnClickListener(new OnClickListener() {
             public void onClick(View v)
             {
-                eth1pending = (unit2an == 0) ? 1 : 0;
                 send_command_http("http://rk3399:12000/main.cgi?n=tv&t="+(1-eth1on));
             }
         });
@@ -129,7 +116,6 @@ public class lights extends Activity
         eth2.setOnClickListener(new OnClickListener() {
             public void onClick(View v)
             {
-                eth2pending = (unit2an == 0) ? 1 : 0;
                 send_command_http("http://rk3399:12000/main.cgi?n=pharao&t="+(1-eth2on));
             }
         });
@@ -320,12 +306,6 @@ public class lights extends Activity
             {
                 blue1.setTextColor(android.graphics.Color.BLACK);
                 blue1.setBackgroundColor(android.graphics.Color.rgb(60,111,240));
-                blue1pending = 0;
-            }
-            else if (blue1pending>0)
-            {
-                blue1.setTextColor(android.graphics.Color.BLACK);
-                blue1.setBackgroundColor(android.graphics.Color.rgb(30,56,120));
             }
             else
             {
@@ -336,12 +316,6 @@ public class lights extends Activity
             {
                 blue2.setTextColor(android.graphics.Color.BLACK);
                 blue2.setBackgroundColor(android.graphics.Color.rgb(60,111,240));
-                blue2pending = 0;
-            }
-            else if (blue2pending>0)
-            {
-                blue2.setTextColor(android.graphics.Color.BLACK);
-                blue2.setBackgroundColor(android.graphics.Color.rgb(30,56,120));
             }
             else
             {
@@ -352,12 +326,6 @@ public class lights extends Activity
             {
                 red1.setTextColor(android.graphics.Color.BLACK);
                 red1.setBackgroundColor(android.graphics.Color.rgb(255,50,50));
-                red1pending = 0;
-            }
-            else if (red1pending>0)
-            {
-                red1.setTextColor(android.graphics.Color.BLACK);
-                red1.setBackgroundColor(android.graphics.Color.rgb(128,25,25));
             }
             else
             {
@@ -368,12 +336,6 @@ public class lights extends Activity
             {
                 red2.setTextColor(android.graphics.Color.BLACK);
                 red2.setBackgroundColor(android.graphics.Color.rgb(255,50,50));
-                red2pending = 0;
-            }
-            else if (red2pending>0)
-            {
-                red2.setTextColor(android.graphics.Color.BLACK);
-                red2.setBackgroundColor(android.graphics.Color.rgb(128,25,25));
             }
             else
             {
@@ -453,11 +415,6 @@ public class lights extends Activity
                 eth1.setTextColor(android.graphics.Color.BLACK);
                 eth1.setBackgroundColor(android.graphics.Color.GRAY);
             }
-            else if (eth1pending>0)
-            {
-                eth1.setTextColor(android.graphics.Color.BLACK);
-                eth1.setBackgroundColor(android.graphics.Color.DKGRAY);
-            }
             else
             {
                 eth1.setTextColor(android.graphics.Color.GRAY);
@@ -467,11 +424,6 @@ public class lights extends Activity
             {
                 eth2.setTextColor(android.graphics.Color.BLACK);
                 eth2.setBackgroundColor(android.graphics.Color.rgb(241,67,20));
-            }
-            else if (eth2pending>0)
-            {
-                eth2.setTextColor(android.graphics.Color.BLACK);
-                eth2.setBackgroundColor(android.graphics.Color.rgb(120,33,10));
             }
             else
             {
@@ -532,11 +484,6 @@ public class lights extends Activity
                     if (line.contains("wzmain")==true && line.contains("=")==true)
                     {
                         unit2an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
-                        line = r.readLine();
-                    }
-                    if (line.contains("wzmainpending")==true && line.contains("=")==true)
-                    {
-                        wzmainpending = Character.getNumericValue(line.charAt(line.indexOf("=") + 1));
                         line = r.readLine();
                     }
                     if (line.contains("mainlight")==true && line.contains("=")==true)
