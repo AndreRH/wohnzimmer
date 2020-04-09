@@ -6,3 +6,9 @@ Why it's on gitlab/github? Because i wrote it twice,
 the first time i lost the code (it was stored in a subdirectory
 of the Android SDK and an update deleted it), that was stupid and
 should not happen again...
+
+currently I need to set:
+    export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+otherwise:
+    [javac] error: Source option 5 is no longer supported. Use 6 or later.
+    [javac] error: Target option 1.5 is no longer supported. Use 1.6 or later.
