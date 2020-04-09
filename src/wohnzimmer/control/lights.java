@@ -65,10 +65,6 @@ public class lights extends Activity
     private Button zsun1;
     private Button zsun1d;
     private Button jarbotv;
-    private Button xkcdprev;
-    private Button xkcdrand;
-    private Button xkcdnext;
-    private Button xkcdlast;
 
     private TextView volt;
     private String voltstr;
@@ -243,34 +239,6 @@ public class lights extends Activity
                 Intent myIntent = new Intent(v.getContext(), jarbot.class);
                 myIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivityForResult(myIntent, 0);
-            }
-        });
-
-        xkcdprev = (Button) findViewById(R.id.xkcdprev);
-        xkcdprev.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                send_command_http("http://rk3399:12000/main.cgi?n=xkcdprev&t=1");
-            }
-        });
-
-        xkcdrand = (Button) findViewById(R.id.xkcdrand);
-        xkcdrand.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                send_command_http("http://rk3399:12000/main.cgi?n=xkcdrand&t=1");
-            }
-        });
-
-        xkcdnext = (Button) findViewById(R.id.xkcdnext);
-        xkcdnext.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                send_command_http("http://rk3399:12000/main.cgi?n=xkcdnext&t=1");
-            }
-        });
-
-        xkcdlast = (Button) findViewById(R.id.xkcdlast);
-        xkcdlast.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-                send_command_http("http://rk3399:12000/main.cgi?n=xkcdlast&t=1");
             }
         });
 
