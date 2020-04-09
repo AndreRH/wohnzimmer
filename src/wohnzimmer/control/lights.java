@@ -32,30 +32,30 @@ public class lights extends Activity
     private int blue2on;
     private int red1on;
     private int red2on;
-    private int eth1on;
-    private int eth2on;
+    private int tv1on;
+    private int pharaoon;
 
-    private int unit14an;
-    private int unit15an;
-    private int unit8an;
-    private int unit4an;
+    private int mirror1on;
+    private int bed1on;
+    /*private int unit8an;*/
+    private int green1on;
     private int unit2an;
-    private int zsun1an;
+    private int mainlight1an;
 
     private Button blue1;
     private Button blue2;
     private Button red1;
     private Button red2;
     private Button udp;
-    private Button eth1;
-    private Button eth2;
-    private Button mylight15;
-    private Button mylight14;
-    private Button mylight8;
+    private Button tv1;
+    private Button pharao;
+    private Button bed1;
+    private Button mirror1;
+    /*private Button mylight8;*/
     private Button mylight8d;
-    private Button mylight4;
-    private Button zsun1;
-    private Button zsun1d;
+    private Button green1;
+    private Button mainlight1;
+    private Button mainlight1d;
     private Button jarbotv;
 
     private TextView volt;
@@ -104,33 +104,33 @@ public class lights extends Activity
             }
         });
 
-        eth1 = (Button) findViewById(R.id.eth1); //tv
-        eth1.setOnClickListener(new OnClickListener() {
+        tv1 = (Button) findViewById(R.id.tv1); //tv
+        tv1.setOnClickListener(new OnClickListener() {
             public void onClick(View v)
             {
-                send_command_http("http://rk3399:12000/main.cgi?n=tv&t="+(1-eth1on));
+                send_command_http("http://rk3399:12000/main.cgi?n=tv&t="+(1-tv1on));
             }
         });
 
-        eth2 = (Button) findViewById(R.id.eth2); //pharao
-        eth2.setOnClickListener(new OnClickListener() {
+        pharao = (Button) findViewById(R.id.pharao); //pharao
+        pharao.setOnClickListener(new OnClickListener() {
             public void onClick(View v)
             {
-                send_command_http("http://rk3399:12000/main.cgi?n=pharao&t="+(1-eth2on));
+                send_command_http("http://rk3399:12000/main.cgi?n=pharao&t="+(1-pharaoon));
             }
         });
 
-        mylight14 = (Button) findViewById(R.id.mylight14); //mirror
-        mylight14.setOnClickListener(new OnClickListener() {
+        mirror1 = (Button) findViewById(R.id.mirror1); //mirror
+        mirror1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://rk3399:12000/main.cgi?n=mirror&t="+(1 - unit14an));
+                send_command_http("http://rk3399:12000/main.cgi?n=mirror&t="+(1 - mirror1on));
             }
         });
 
-        mylight15 = (Button) findViewById(R.id.mylight15); //bed
-        mylight15.setOnClickListener(new OnClickListener() {
+        bed1 = (Button) findViewById(R.id.bed1); //bed
+        bed1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://rk3399:12000/main.cgi?n=bed&t="+(1 - unit15an));
+                send_command_http("http://rk3399:12000/main.cgi?n=bed&t="+(1 - bed1on));
             }
         });
 
@@ -159,8 +159,8 @@ public class lights extends Activity
                         blue2on=0;
                         red1on=0;
                         red2on=0;
-                        eth1on=0;
-                        eth2on=0;
+                        tv1on=0;
+                        pharaoon=0;
                         send_command_http("http://rk3399:12000/main.cgi?n=wzmain&t=0");
                      }
                 }, 5000);
@@ -187,22 +187,22 @@ public class lights extends Activity
             }
         });
 
-        mylight4 = (Button) findViewById(R.id.mylight4); //green
-        mylight4.setOnClickListener(new OnClickListener() {
+        green1 = (Button) findViewById(R.id.green1); //green
+        green1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://rk3399:12000/main.cgi?n=green&t="+(1 - unit4an));
+                send_command_http("http://rk3399:12000/main.cgi?n=green&t="+(1 - green1on));
             }
         });
 
-        zsun1 = (Button) findViewById(R.id.zsun1); //decke
-        zsun1.setOnClickListener(new OnClickListener() {
+        mainlight1 = (Button) findViewById(R.id.mainlight1); //decke
+        mainlight1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://rk3399:12000/main.cgi?n=mainlight&t="+(1 - zsun1an));
+                send_command_http("http://rk3399:12000/main.cgi?n=mainlight&t="+(1 - mainlight1an));
             }
         });
 
-        /*zsun1d = (Button) findViewById(R.id.zsun1d);
-        zsun1d.setOnClickListener(new OnClickListener() {
+        /*mainlight1d = (Button) findViewById(R.id.mainlight1d);
+        mainlight1d.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 send_command_udp(1, 2);
             }
@@ -342,25 +342,25 @@ public class lights extends Activity
                 red2.setTextColor(android.graphics.Color.rgb(255,50,50));
                 red2.setBackgroundColor(android.graphics.Color.BLACK);
             }
-            if (unit14an>0)
+            if (mirror1on>0)
             {
-                mylight14.setTextColor(android.graphics.Color.BLACK);
-                mylight14.setBackgroundColor(android.graphics.Color.GRAY);
+                mirror1.setTextColor(android.graphics.Color.BLACK);
+                mirror1.setBackgroundColor(android.graphics.Color.GRAY);
             }
             else
             {
-                mylight14.setTextColor(android.graphics.Color.GRAY);
-                mylight14.setBackgroundColor(android.graphics.Color.DKGRAY);
+                mirror1.setTextColor(android.graphics.Color.GRAY);
+                mirror1.setBackgroundColor(android.graphics.Color.DKGRAY);
             }
-            if (unit15an>0)
+            if (bed1on>0)
             {
-                mylight15.setTextColor(android.graphics.Color.BLACK);
-                mylight15.setBackgroundColor(android.graphics.Color.GRAY);
+                bed1.setTextColor(android.graphics.Color.BLACK);
+                bed1.setBackgroundColor(android.graphics.Color.GRAY);
             }
             else
             {
-                mylight15.setTextColor(android.graphics.Color.GRAY);
-                mylight15.setBackgroundColor(android.graphics.Color.DKGRAY);
+                bed1.setTextColor(android.graphics.Color.GRAY);
+                bed1.setBackgroundColor(android.graphics.Color.DKGRAY);
             }
             /*
             if (unit8an>0)
@@ -378,57 +378,57 @@ public class lights extends Activity
                 mylight8d.setBackgroundColor(android.graphics.Color.DKGRAY);
             }
             */
-            if (unit4an>0)
+            if (green1on>0)
             {
-                mylight4.setTextColor(android.graphics.Color.BLACK);
-                mylight4.setBackgroundColor(android.graphics.Color.rgb(44,255,122));
+                green1.setTextColor(android.graphics.Color.BLACK);
+                green1.setBackgroundColor(android.graphics.Color.rgb(44,255,122));
                 /*
-                mylight4.setTextColor(android.graphics.Color.BLACK);
-                mylight4.setBackgroundColor(android.graphics.Color.GRAY);
+                green1.setTextColor(android.graphics.Color.BLACK);
+                green1.setBackgroundColor(android.graphics.Color.GRAY);
                 udp.setTextColor(android.graphics.Color.BLACK);
                 udp.setBackgroundColor(android.graphics.Color.GRAY);
                 */
             }
             else
             {
-                mylight4.setTextColor(android.graphics.Color.rgb(44,255,122));
-                mylight4.setBackgroundColor(android.graphics.Color.BLACK);
+                green1.setTextColor(android.graphics.Color.rgb(44,255,122));
+                green1.setBackgroundColor(android.graphics.Color.BLACK);
                 /*
-                mylight4.setTextColor(android.graphics.Color.GRAY);
-                mylight4.setBackgroundColor(android.graphics.Color.DKGRAY);
+                green1.setTextColor(android.graphics.Color.GRAY);
+                green1.setBackgroundColor(android.graphics.Color.DKGRAY);
                 udp.setTextColor(android.graphics.Color.GRAY);
                 udp.setBackgroundColor(android.graphics.Color.DKGRAY);
                 */
             }
-            if (zsun1an>0)
+            if (mainlight1an>0)
             {
-                zsun1.setTextColor(android.graphics.Color.BLACK);
-                zsun1.setBackgroundColor(android.graphics.Color.GRAY);
+                mainlight1.setTextColor(android.graphics.Color.BLACK);
+                mainlight1.setBackgroundColor(android.graphics.Color.GRAY);
             }
             else
             {
-                zsun1.setTextColor(android.graphics.Color.GRAY);
-                zsun1.setBackgroundColor(android.graphics.Color.DKGRAY);
+                mainlight1.setTextColor(android.graphics.Color.GRAY);
+                mainlight1.setBackgroundColor(android.graphics.Color.DKGRAY);
             }
-            if (eth1on>0)
+            if (tv1on>0)
             {
-                eth1.setTextColor(android.graphics.Color.BLACK);
-                eth1.setBackgroundColor(android.graphics.Color.GRAY);
-            }
-            else
-            {
-                eth1.setTextColor(android.graphics.Color.GRAY);
-                eth1.setBackgroundColor(android.graphics.Color.DKGRAY);
-            }
-            if (eth2on>0)
-            {
-                eth2.setTextColor(android.graphics.Color.BLACK);
-                eth2.setBackgroundColor(android.graphics.Color.rgb(241,67,20));
+                tv1.setTextColor(android.graphics.Color.BLACK);
+                tv1.setBackgroundColor(android.graphics.Color.GRAY);
             }
             else
             {
-                eth2.setTextColor(android.graphics.Color.rgb(241,67,20));
-                eth2.setBackgroundColor(android.graphics.Color.BLACK);
+                tv1.setTextColor(android.graphics.Color.GRAY);
+                tv1.setBackgroundColor(android.graphics.Color.DKGRAY);
+            }
+            if (pharaoon>0)
+            {
+                pharao.setTextColor(android.graphics.Color.BLACK);
+                pharao.setBackgroundColor(android.graphics.Color.rgb(241,67,20));
+            }
+            else
+            {
+                pharao.setTextColor(android.graphics.Color.rgb(241,67,20));
+                pharao.setBackgroundColor(android.graphics.Color.BLACK);
             }
             if (errocc>0)
                 volt.setText(errstr);
@@ -463,22 +463,22 @@ public class lights extends Activity
                     }
                     if (line.contains("green")==true && line.contains("=")==true)
                     {
-                        unit4an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        green1on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
                     if (line.contains("tv")==true && line.contains("=")==true)
                     {
-                        eth1on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        tv1on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
                     if (line.contains("pharao")==true && line.contains("=")==true)
                     {
-                        eth2on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        pharaoon = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
                     if (line.contains("mirror")==true && line.contains("=")==true)
                     {
-                        unit14an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        mirror1on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
                     if (line.contains("wzmain")==true && line.contains("=")==true)
@@ -488,12 +488,12 @@ public class lights extends Activity
                     }
                     if (line.contains("mainlight")==true && line.contains("=")==true)
                     {
-                        zsun1an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        mainlight1an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
                     if (line.contains("bed")==true && line.contains("=")==true)
                     {
-                        unit15an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        bed1on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         continue;
                     }
                 }
