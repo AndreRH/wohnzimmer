@@ -39,7 +39,7 @@ public class lights extends Activity
     private int bed1on;
     /*private int unit8an;*/
     private int green1on;
-    private int mainlight1an;
+    private int mainlight1on;
 
     private Button blue1;
     private Button blue2;
@@ -159,7 +159,7 @@ public class lights extends Activity
         mainlight1 = (Button) findViewById(R.id.mainlight1); //decke
         mainlight1.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                send_command_http("http://rk3399:12000/main.cgi?n=mainlight&t="+(1 - mainlight1an));
+                send_command_http("http://rk3399:12000/main.cgi?n=mainlight&t="+(1 - mainlight1on));
             }
         });
 
@@ -372,7 +372,7 @@ public class lights extends Activity
                 aux1.setTextColor(android.graphics.Color.GRAY);
                 aux1.setBackgroundColor(android.graphics.Color.DKGRAY);
             }
-            if (mainlight1an>0)
+            if (mainlight1on>0)
             {
                 mainlight1.setTextColor(android.graphics.Color.BLACK);
                 mainlight1.setBackgroundColor(android.graphics.Color.GRAY);
@@ -460,7 +460,7 @@ public class lights extends Activity
                     }
                     if (line.contains("mainlight")==true && line.contains("=")==true)
                     {
-                        mainlight1an = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
+                        mainlight1on = (line.charAt(line.indexOf("=") + 1) == '1') ? 1 : 0;
                         line = r.readLine();
                     }
                     if (line.contains("bed")==true && line.contains("=")==true)
