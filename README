@@ -2,7 +2,7 @@ Tool with bad coding for private use. Ignore it :)
 
 I hacked this together for a simple purpose: To control some old hardware i built years ago.
 
-Why it's on github? Because i wrote it twice,
+Why it's on gitlab/github? Because i wrote it twice,
 the first time i lost the code (it was stored in a subdirectory
 of the Android SDK and an update deleted it), that was stupid and
 should not happen again...
