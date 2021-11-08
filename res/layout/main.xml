@@ -36,7 +36,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_width="0px" android:layout_height="wrap_content" android:layout_weight="1"
                 android:textColor="#3c6ff0"
-                android:text="Blau  L"/>
+                android:text="Black L"/>
             <Button android:id="@+id/blue1"
                 android:layout_marginBottom="16dp"
                 android:layout_marginRight="16dp"
